@@ -1,4 +1,4 @@
-# spotify-tools
+# Spotify Tools
 
 A concise set of tools designed to help users interact with Spotify.
 
@@ -14,3 +14,8 @@ Feature ideas:
   - Top 5 genres (with %s)
   - Top artists
 
+Technologies used:
+* Gatsby (React/Typescript)
+* Spotify API
+
+## Set up
