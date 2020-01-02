@@ -1,6 +1,8 @@
 # Spotify Tools
 
-A web application that offers concise set of tools designed to help users interact with Spotify. Built from personal needs based on how I use Spotify. Feel free to request features in the [project issues.](https://github.com/Kayra/spotify-tools/issues)
+A web application that offers concise set of tools designed to help users interact with Spotify. 
+
+Built from personal needs based on how I use Spotify. Feel free to request features in the [project issues.](https://github.com/Kayra/spotify-tools/issues)
 
 ## Design
 
