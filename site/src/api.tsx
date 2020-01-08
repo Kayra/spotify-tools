@@ -1,26 +1,19 @@
 // import {request} from './react-request-hook';
 import SpotifyWebApi from 'spotify-web-api-js';
 
-let spotify = new SpotifyWebApi();
-
-// export type Playlist = {
-//     collaborative: boolean;
-//     description: string;
-//     external_urls: string;
-// }
-
-
-// const api = {
-//     getPlaylists: (page: number = 1) => {
-//         return request<[]>
-//     }
-// }
-
-
-spotify.setAccessToken('BQCZ9kA5QKblZjhAm_chZkO8qxXc7HGJsjcyzY1K6yLNSphdLG4p0ZaCsjggjVBfGsvQdr4SnipUo3_gP4A');
+let spotifyApi = new SpotifyWebApi();
 
 function Api() {
 
+    spotifyApi.setAccessToken('BQA75dt4j9eZV-Jw25C_QXYgn5X9E91-tiC0rOVJQfXnFP9b1SqRH3OVxJyE8M1Mxitx5emkz-QLTnoPECA');
+
+    spotifyApi.getUserPlaylists('golzernurf')
+      .then(function(data) {
+        console.log('User playlists', data);
+      }, function(err) {
+        console.error(err);
+      });
+    
 }
 
 export default Api;
