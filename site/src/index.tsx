@@ -12,4 +12,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-Api();
+const api = new Api();
+const playlists = api.getPlaylists('golzernurf');
+console.log(playlists);
+

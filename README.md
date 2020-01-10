@@ -17,7 +17,8 @@ Built from personal needs based on how I use Spotify. Feel free to request featu
   - Top artists
 
 ### Technologies used:
-* [Gatsby](https://www.gatsbyjs.com/docs/) (React/Typescript)
+* Typescript
+* React
 * [Spotify API](https://developer.spotify.com/documentation/web-api/)
 
 ## Set up
