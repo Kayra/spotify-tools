@@ -13,6 +13,10 @@ ReactDOM.render(
 );
 
 const api = new Api();
-const playlists = api.getPlaylists('golzernurf');
-console.log(playlists);
+api.getPlaylists('golzernurf')
+  .then(function(playlists) {
+    const tracks = api.getPlaylistTracks(playlists[0]);
+    console.log(tracks);
+  });
+// console.log(playlists);
 
