@@ -1,4 +1,3 @@
-// import {request} from './react-request-hook';
 import SpotifyWebApi from 'spotify-web-api-js';
 
 let spotifyApi = new SpotifyWebApi();
@@ -30,15 +29,13 @@ class Api {
                 });
         }
 
-        // queryPlaylists().then(data => console.log(data))
-
         return queryPlaylists();
 
     }
 
-    getPlaylistTracks(playlistId: string): any {
+    getPlaylistTracks(playlistId: string): Promise<string[]> {
 
-        function queryPlaylistTracks(playlistId: string, offset = 0): any {
+        function queryPlaylistTracks(playlistId: string, offset = 0): Promise<string[]> {
 
             return spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset })
                 .then(function(data) {
@@ -48,11 +45,12 @@ class Api {
                         const nextOffset = Number(nextUrl.searchParams.get('offset'));
                         return queryPlaylistTracks(playlistId, nextOffset);
                     } else {
-                        return data.items;
+                        return data.items.map(trackObject => trackObject['track']['id']);
                     }
 
                 }, function(err) {
                     console.error(err);
+                    return [];
                 });
 
         }
@@ -64,4 +62,3 @@ class Api {
 }
 
 export default Api;
-// export {}
