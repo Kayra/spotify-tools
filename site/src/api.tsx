@@ -5,7 +5,7 @@ let spotifyApi = new SpotifyWebApi();
 class Api {
 
     constructor() {
-        spotifyApi.setAccessToken('BQDmn9Fn_ILiiC4vYOzc2YcHRXOTOXtW4TeHzT7jkenfwt6doSl4eHTQkV_tlhxsZn_3z_fGmuhUXlX66eY');
+        spotifyApi.setAccessToken('BQDGMSe-KHCQgrcBd3_ksE-Rt6tqI7oZJoh-xc7qUeu-xwCUIlEh5yFrg5F-SlIUaNPe9k7GH-jKPcbngjk');
     }
 
     getPlaylists(userName: string): Promise<string[]> {
