@@ -20,5 +20,6 @@ Built from personal needs based on how I use Spotify. Feel free to request featu
 * Typescript
 * React
 * [Spotify API](https://developer.spotify.com/documentation/web-api/)
+* [Spotify API wrapper](https://github.com/JMPerez/spotify-web-api-js)
 
 ## Set up

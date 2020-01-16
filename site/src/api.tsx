@@ -1,18 +1,20 @@
 import SpotifyWebApi from 'spotify-web-api-js';
-
-let spotifyApi = new SpotifyWebApi();
+import { getConfig } from './config';
 
 class Api {
 
+    spotifyApi: SpotifyWebApi.SpotifyWebApiJs;
+
     constructor() {
-        spotifyApi.setAccessToken('BQDGMSe-KHCQgrcBd3_ksE-Rt6tqI7oZJoh-xc7qUeu-xwCUIlEh5yFrg5F-SlIUaNPe9k7GH-jKPcbngjk');
+        this.spotifyApi = new SpotifyWebApi();
+        this.spotifyApi.setAccessToken('BQDGMSe-KHCQgrcBd3_ksE-Rt6tqI7oZJoh-xc7qUeu-xwCUIlEh5yFrg5F-SlIUaNPe9k7GH-jKPcbngjk');
     }
 
-    getPlaylists(userName: string): Promise<string[]> {
+    getPlaylists = (userName: string): Promise<string[]> => {
 
-        function queryPlaylists(offset = 0): Promise<string[]> {
+        let queryPlaylists = (offset = 0): Promise<string[]> => {
 
-            return spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset })
+            return this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset })
                 .then(function(data) {
                     
                     if (data.next) {
@@ -33,11 +35,11 @@ class Api {
 
     }
 
-    getPlaylistTracks(playlistId: string): Promise<string[]> {
+    getPlaylistTracks = (playlistId: string): Promise<string[]> => {
 
-        function queryPlaylistTracks(playlistId: string, offset = 0): Promise<string[]> {
+        let queryPlaylistTracks = (playlistId: string, offset = 0): Promise<string[]> => {
 
-            return spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset })
+            return this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset })
                 .then(function(data) {
 
                     if (data.next) {
