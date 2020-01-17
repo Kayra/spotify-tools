@@ -1,16 +1,50 @@
+import axios from "axios";
 import SpotifyWebApi from 'spotify-web-api-js';
+
 import { getConfig } from './config';
+
 
 class Api {
 
     spotifyApi: SpotifyWebApi.SpotifyWebApiJs;
 
     constructor() {
+
         this.spotifyApi = new SpotifyWebApi();
-        this.spotifyApi.setAccessToken('BQDGMSe-KHCQgrcBd3_ksE-Rt6tqI7oZJoh-xc7qUeu-xwCUIlEh5yFrg5F-SlIUaNPe9k7GH-jKPcbngjk');
+
+        const config = getConfig();
+        this.getApiToken(config.spotifyClientId, config.spotifyClientSecret)
+            .then((authToken) => {
+                console.log(authToken);
+                this.spotifyApi.setAccessToken(authToken);
+            });
+        
     }
 
-    getPlaylists = (userName: string): Promise<string[]> => {
+    async getApiToken(clientID: string, clientSecret: string): Promise<string> {
+
+        try {
+
+            const authRequestToken = btoa(`${clientID}:${clientSecret}`)
+
+            const { data } = await axios({
+                method: 'POST',
+                url: 'https://accounts.spotify.com/api/token',
+                data: new URLSearchParams({grant_type: 'client_credentials'}),
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Authorization": `Basic ${authRequestToken}`
+                }
+            })
+
+            return data.access_token;
+
+        } catch(error) {
+            throw new Error(error);
+        }
+    }
+
+    getPlaylists(userName: string): Promise<string[]> {
 
         let queryPlaylists = (offset = 0): Promise<string[]> => {
 
@@ -35,7 +69,7 @@ class Api {
 
     }
 
-    getPlaylistTracks = (playlistId: string): Promise<string[]> => {
+    getPlaylistTracks(playlistId: string): Promise<string[]> {
 
         let queryPlaylistTracks = (playlistId: string, offset = 0): Promise<string[]> => {
 
