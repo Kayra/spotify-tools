@@ -7,18 +7,17 @@ import { getConfig } from './config';
 class Api {
 
     spotifyApi: SpotifyWebApi.SpotifyWebApiJs;
+    init: Promise<void>;
 
     constructor() {
-
         this.spotifyApi = new SpotifyWebApi();
+        this.init = this.initialise();
+    }
 
+    async initialise(): Promise<void> {
         const config = getConfig();
-        this.getApiToken(config.spotifyClientId, config.spotifyClientSecret)
-            .then((authToken) => {
-                console.log(authToken);
-                this.spotifyApi.setAccessToken(authToken);
-            });
-        
+        const authToken = await this.getApiToken(config.spotifyClientId, config.spotifyClientSecret);
+        this.spotifyApi.setAccessToken(authToken);
     }
 
     async getApiToken(clientID: string, clientSecret: string): Promise<string> {
@@ -44,7 +43,9 @@ class Api {
         }
     }
 
-    getPlaylists(userName: string): Promise<string[]> {
+    async getPlaylists(userName: string): Promise<string[]> {
+
+        await this.init;
 
         let queryPlaylists = (offset = 0): Promise<string[]> => {
 
@@ -69,7 +70,9 @@ class Api {
 
     }
 
-    getPlaylistTracks(playlistId: string): Promise<string[]> {
+    async getPlaylistTracks(playlistId: string): Promise<string[]> {
+
+        await this.init;
 
         let queryPlaylistTracks = (playlistId: string, offset = 0): Promise<string[]> => {
 
