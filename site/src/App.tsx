@@ -1,8 +1,34 @@
 import React from 'react';
+
 import logo from './logo.svg';
 import './App.css';
+import Api from './Api';
 
 function App() {
+
+
+  const api = new Api();
+
+  const playListTracks = {};
+  
+  api.getPlaylists('golzernurf')
+    .then(function(playlists) {
+  
+      let tracks: string[] = [];
+  
+      for (const playlist of playlists) {
+  
+        api.getPlaylistTracks(playlist)
+          .then(function(playlistTracks) {
+            tracks.push(...playlistTracks);
+          });
+      }
+      return tracks
+    }).then((tracks) => {
+      console.log(tracks);
+    });
+  
+
   return (
     <div className="App">
       <header className="App-header">

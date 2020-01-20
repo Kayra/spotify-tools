@@ -43,11 +43,11 @@ class Api {
         }
     }
 
-    async getPlaylists(userName: string): Promise<string[]> {
+    async getPlaylists(userName: string): Promise<any> {
 
         await this.init;
 
-        let queryPlaylists = (offset = 0): Promise<string[]> => {
+        let queryPlaylists = (offset = 0): Promise<any> => {
 
             return this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset })
                 .then(function(data) {
@@ -57,7 +57,9 @@ class Api {
                         const nextOffset = Number(nextUrl.searchParams.get('offset'));
                         return queryPlaylists(nextOffset);
                     } else {
-                        return data.items.map(playlist => playlist['id']);
+                        // console.log(data.items);
+                        return data.items;
+                        // return data.items.map(playlist => playlist['id']);
                     }
                     
                 }, function(err) {
@@ -84,7 +86,7 @@ class Api {
                         const nextOffset = Number(nextUrl.searchParams.get('offset'));
                         return queryPlaylistTracks(playlistId, nextOffset);
                     } else {
-                        return data.items.map(trackObject => trackObject['track']['id']);
+                        return data.items.map(trackObject => trackObject['track']['name']);
                     }
 
                 }, function(err) {
