@@ -4,28 +4,38 @@ import logo from './logo.svg';
 import './App.css';
 import Api from './Api';
 
+interface PlayListTrackMapping {
+  [playlistName: string]: Object[]
+}
+
 function App() {
 
-
   const api = new Api();
-
-  const playListTracks = {};
+  var playListTrackMapping: PlayListTrackMapping = {};
   
   api.getPlaylists('golzernurf')
     .then(function(playlists) {
   
-      let tracks: string[] = [];
-  
       for (const playlist of playlists) {
-  
+
+        const playlistName = playlist.name;
+
         api.getPlaylistTracks(playlist)
-          .then(function(playlistTracks) {
-            tracks.push(...playlistTracks);
+          .then(function(playListTracks) {
+
+            if (playlistName in playListTrackMapping) {
+              playListTrackMapping[playlistName].push(...playListTracks);
+            } else {
+              playListTrackMapping[playlistName] = playListTracks;
+            }
+
           });
       }
-      return tracks
-    }).then((tracks) => {
-      console.log(tracks);
+
+      return playListTrackMapping
+
+    }).then((playListTrackMapping) => {
+      console.log('hitt', playListTrackMapping);
     });
   
 
