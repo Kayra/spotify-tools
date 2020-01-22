@@ -1,42 +1,17 @@
 import React from 'react';
 
-import logo from './logo.svg';
 import './App.css';
 import Api from './Api';
+import logo from './logo.svg';
 
-interface PlayListTrackMapping {
-  [playlistName: string]: Object[]
-}
 
 function App() {
 
   const api = new Api();
-  var playListTrackMapping: PlayListTrackMapping = {};
   
-  api.getPlaylists('golzernurf')
-    .then(function(playlists) {
-  
-      for (const playlist of playlists) {
-
-        const playlistName = playlist.name;
-
-        api.getPlaylistTracks(playlist)
-          .then(function(playListTracks) {
-
-            if (playlistName in playListTrackMapping) {
-              playListTrackMapping[playlistName].push(...playListTracks);
-            } else {
-              playListTrackMapping[playlistName] = playListTracks;
-            }
-
-          });
-      }
-
-      return playListTrackMapping
-
-    }).then((playListTrackMapping) => {
-      console.log('hitt', playListTrackMapping);
-    });
+  api.buildPlaylistTrackMapping('golzernurf').then((mapping) => {
+    console.log(mapping);
+  });
   
 
   return (

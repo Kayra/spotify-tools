@@ -4,6 +4,10 @@ import SpotifyWebApi from 'spotify-web-api-js';
 import { getConfig } from './config';
 
 
+interface PlayListTrackMapping {
+    [playlistName: string]: Object[]
+  }
+
 class Api {
 
     spotifyApi: SpotifyWebApi.SpotifyWebApiJs;
@@ -97,6 +101,29 @@ class Api {
         }
 
         return queryPlaylistTracks(playlistId);
+
+    }
+
+    async buildPlaylistTrackMapping(userName: string) {
+
+        var playListTrackMapping: PlayListTrackMapping = {};
+
+        const playlists = await this.getPlaylists('golzernurf');
+        
+        for (const playlist of playlists) {
+    
+            const playlistName = playlist.name;
+            const playListTracks = await this.getPlaylistTracks(playlist);
+    
+            if (playlistName in playListTrackMapping) {
+                playListTrackMapping[playlistName].push(...playListTracks);
+            } else {
+                playListTrackMapping[playlistName] = playListTracks;
+            }
+    
+        }
+        
+        return playListTrackMapping
 
     }
     
