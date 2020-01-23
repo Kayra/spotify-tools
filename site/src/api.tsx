@@ -80,23 +80,34 @@ class Api {
 
         const playlistId = playlist.id
 
-        let queryPlaylistTracks = (playlistId: string, offset = 0): Promise<string[]> => {
+        let queryPlaylistTracks = async (playlistId: string, offset = 0): Promise<string[]> => {
 
-            return this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset })
-                .then(function(data) {
+            const playlistTracks = await this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset });
 
-                    if (data.next) {
-                        const nextUrl = new URL(data.next);
-                        const nextOffset = Number(nextUrl.searchParams.get('offset'));
-                        return queryPlaylistTracks(playlistId, nextOffset);
-                    } else {
-                        return data.items.map(trackObject => trackObject['track']['name']);
-                    }
+            if (playlistTracks.next) {
+                const nextUrl = new URL(playlistTracks.next);
+                const nextOffset = Number(nextUrl.searchParams.get('offset'));
+                return queryPlaylistTracks(playlistId, nextOffset);
+            } else {
+                return playlistTracks.items.map(trackObject => trackObject['track']['name']);
+            }
 
-                }, function(err) {
-                    console.error(err);
-                    return [];
-                });
+
+            // return this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset })
+            //     .then(function(data) {
+
+            //         if (data.next) {
+            //             const nextUrl = new URL(data.next);
+            //             const nextOffset = Number(nextUrl.searchParams.get('offset'));
+            //             return queryPlaylistTracks(playlistId, nextOffset);
+            //         } else {
+            //             return data.items.map(trackObject => trackObject['track']['name']);
+            //         }
+
+            //     }, function(err) {
+            //         console.error(err);
+            //         return [];
+            //     });
 
         }
 
