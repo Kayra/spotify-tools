@@ -51,23 +51,33 @@ class Api {
 
         await this.init;
 
-        let queryPlaylists = (offset = 0): Promise<SpotifyApi.PlaylistObjectSimplified[]> => {
+        let queryPlaylists = async (offset = 0): Promise<SpotifyApi.PlaylistObjectSimplified[]> => {
 
-            return this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset })
-                .then(function(data) {
-                    
-                    if (data.next) {
-                        const nextUrl = new URL(data.next);
+            const playlists = await this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset });
+
+            if (playlists.next) {
+                        const nextUrl = new URL(playlists.next);
                         const nextOffset = Number(nextUrl.searchParams.get('offset'));
                         return queryPlaylists(nextOffset);
-                    } else {
-                        return data.items;
-                    }
+            } else {
+                return playlists.items;
+            }
+            
+            // return this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset })
+            //     .then(function(data) {
                     
-                }, function(err) {
-                    console.error(err);
-                    return [];
-                });
+            //         if (data.next) {
+            //             const nextUrl = new URL(data.next);
+            //             const nextOffset = Number(nextUrl.searchParams.get('offset'));
+            //             return queryPlaylists(nextOffset);
+            //         } else {
+            //             return data.items;
+            //         }
+                    
+            //     }, function(err) {
+            //         console.error(err);
+            //         return [];
+            //     });
         }
 
         return queryPlaylists();
