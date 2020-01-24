@@ -92,23 +92,6 @@ class Api {
                 return playlistTracks.items.map(trackObject => trackObject['track']['name']);
             }
 
-
-            // return this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset })
-            //     .then(function(data) {
-
-            //         if (data.next) {
-            //             const nextUrl = new URL(data.next);
-            //             const nextOffset = Number(nextUrl.searchParams.get('offset'));
-            //             return queryPlaylistTracks(playlistId, nextOffset);
-            //         } else {
-            //             return data.items.map(trackObject => trackObject['track']['name']);
-            //         }
-
-            //     }, function(err) {
-            //         console.error(err);
-            //         return [];
-            //     });
-
         }
 
         return queryPlaylistTracks(playlistId);
