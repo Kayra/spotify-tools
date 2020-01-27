@@ -63,21 +63,6 @@ class Api {
                 return playlists.items;
             }
             
-            // return this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset })
-            //     .then(function(data) {
-                    
-            //         if (data.next) {
-            //             const nextUrl = new URL(data.next);
-            //             const nextOffset = Number(nextUrl.searchParams.get('offset'));
-            //             return queryPlaylists(nextOffset);
-            //         } else {
-            //             return data.items;
-            //         }
-                    
-            //     }, function(err) {
-            //         console.error(err);
-            //         return [];
-            //     });
         }
 
         return queryPlaylists();
