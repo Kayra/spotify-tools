@@ -9,10 +9,14 @@ function App() {
 
   const api = new Api();
   
-  api.buildPlaylistTrackMapping('golzernurf').then((mapping) => {
-    console.log(mapping);
-  });
-  
+  // api.buildPlaylistTrackMapping('golzernurf').then((mapping) => {
+  //   console.log(mapping);
+  // });
+
+  api.getPlaylists('golzernurf').then((playlists) => {
+    console.log(playlists.map(playlist => playlist.name));
+  })
+
 
   return (
     <div className="App">

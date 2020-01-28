@@ -51,31 +51,32 @@ class Api {
 
         await this.init;
 
-        let queryPlaylists = async (offset = 0): Promise<SpotifyApi.PlaylistObjectSimplified[]> => {
+        let queryPlaylists = async (offset = 0, playlists: SpotifyApi.PlaylistObjectSimplified[] = []): Promise<SpotifyApi.PlaylistObjectSimplified[]> => {
 
-            const playlists = await this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset });
+            const responsePlaylists = await this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset });
+            playlists.push(...responsePlaylists.items);
 
-            if (playlists.next) {
-                        const nextUrl = new URL(playlists.next);
-                        const nextOffset = Number(nextUrl.searchParams.get('offset'));
-                        return queryPlaylists(nextOffset);
+            if (responsePlaylists.next) {
+                const nextUrl = new URL(responsePlaylists.next);
+                const nextOffset = Number(nextUrl.searchParams.get('offset'));
+                return queryPlaylists(nextOffset, playlists);
             } else {
-                return playlists.items;
+                return playlists;
             }
-            
+
         }
 
         return queryPlaylists();
 
     }
 
-    async getPlaylistTracks(playlist: SpotifyApi.PlaylistObjectSimplified): Promise<string[]> {
+    async getPlaylistTracks(playlist: SpotifyApi.PlaylistObjectSimplified): Promise<SpotifyApi.PlaylistTrackObject[]> {
 
         await this.init;
 
         const playlistId = playlist.id
 
-        let queryPlaylistTracks = async (playlistId: string, offset = 0): Promise<string[]> => {
+        let queryPlaylistTracks = async (playlistId: string, offset = 0): Promise<SpotifyApi.PlaylistTrackObject[]> => {
 
             const playlistTracks = await this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset });
 
@@ -84,7 +85,8 @@ class Api {
                 const nextOffset = Number(nextUrl.searchParams.get('offset'));
                 return queryPlaylistTracks(playlistId, nextOffset);
             } else {
-                return playlistTracks.items.map(trackObject => trackObject['track']['name']);
+                return playlistTracks.items;
+                // return playlistTracks.items.map(trackObject => trackObject['track']['name']);
             }
 
         }
