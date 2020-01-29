@@ -5,10 +5,10 @@ import { getConfig } from './config';
 
 
 interface PlayListTrackMapping {
-    [playlistName: string]: Object[]
+    [playlistName: string]: SpotifyApi.PlaylistTrackObject[]
   }
 
-  
+
 class Api {
 
     spotifyApi: SpotifyWebApi.SpotifyWebApiJs;
@@ -87,7 +87,6 @@ class Api {
                 return queryPlaylistTracks(playlistId, nextOffset);
             } else {
                 return playlistTracks.items;
-                // return playlistTracks.items.map(trackObject => trackObject['track']['name']);
             }
 
         }
@@ -96,11 +95,11 @@ class Api {
 
     }
 
-    async buildPlaylistTrackMapping(userName: string) {
+    async buildPlaylistTrackMapping(userName: string): Promise<PlayListTrackMapping> {
 
         var playListTrackMapping: PlayListTrackMapping = {};
 
-        const playlists = await this.getPlaylists('golzernurf');
+        const playlists = await this.getPlaylists(userName);
         
         for (const playlist of playlists) {
     
