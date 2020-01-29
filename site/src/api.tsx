@@ -77,16 +77,17 @@ class Api {
 
         const playlistId = playlist.id
 
-        let queryPlaylistTracks = async (playlistId: string, offset = 0): Promise<SpotifyApi.PlaylistTrackObject[]> => {
+        let queryPlaylistTracks = async (playlistId: string, offset = 0, tracks: SpotifyApi.PlaylistTrackObject[] = []): Promise<SpotifyApi.PlaylistTrackObject[]> => {
 
             const playlistTracks = await this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset });
+            tracks.push(...playlistTracks.items);
 
             if (playlistTracks.next) {
                 const nextUrl = new URL(playlistTracks.next);
                 const nextOffset = Number(nextUrl.searchParams.get('offset'));
-                return queryPlaylistTracks(playlistId, nextOffset);
+                return queryPlaylistTracks(playlistId, nextOffset, tracks);
             } else {
-                return playlistTracks.items;
+                return tracks;
             }
 
         }

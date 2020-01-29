@@ -8,10 +8,21 @@ import logo from './logo.svg';
 class App extends Component {
 
   componentDidMount() {
+
     const api = new Api();
+
     api.getPlaylists('golzernurf').then((playlists) => {
-      console.log(playlists.map(playlist => playlist.name));
+      // console.log(playlists.map(playlist => playlist.name));
+      console.log(playlists[5].name);
+      api.getPlaylistTracks(playlists[5]).then((tracks) => {
+        console.log(tracks.map(track => track.track.name));
+      })
     });
+
+    // api.buildPlaylistTrackMapping('golzernurf').then((mapping) => {
+      // console.log(mapping);
+    // });
+
   }
 
 
