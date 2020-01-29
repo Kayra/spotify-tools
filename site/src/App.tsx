@@ -1,25 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import './App.css';
 import Api from './Api';
 import logo from './logo.svg';
 
 
-function App() {
+class App extends Component {
 
-  const api = new Api();
-  
-  // api.buildPlaylistTrackMapping('golzernurf').then((mapping) => {
-  //   console.log(mapping);
-  // });
-
-  api.getPlaylists('golzernurf').then((playlists) => {
-    console.log(playlists.map(playlist => playlist.name));
-  })
+  componentDidMount() {
+    const api = new Api();
+    api.getPlaylists('golzernurf').then((playlists) => {
+      console.log(playlists.map(playlist => playlist.name));
+    });
+  }
 
 
-  return (
-    <div className="App">
+  render() {
+    return <div className="App">
       <header className="App-header">
 
         <h1>Spotify Toolset</h1>
@@ -51,7 +48,7 @@ function App() {
 
       </header>
     </div>
-  );
+  }
 }
 
 export default App;

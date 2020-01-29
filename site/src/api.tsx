@@ -8,6 +8,7 @@ interface PlayListTrackMapping {
     [playlistName: string]: Object[]
   }
 
+  
 class Api {
 
     spotifyApi: SpotifyWebApi.SpotifyWebApiJs;
