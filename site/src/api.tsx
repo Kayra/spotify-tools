@@ -79,7 +79,8 @@ class Api {
 
         let queryPlaylistTracks = async (playlistId: string, offset = 0, tracks: SpotifyApi.PlaylistTrackObject[] = []): Promise<SpotifyApi.PlaylistTrackObject[]> => {
 
-            const playlistTracks = await this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset });
+            const playlistTracks: SpotifyApi.PlaylistTrackResponse = await this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset });
+
             tracks.push(...playlistTracks.items);
 
             if (playlistTracks.next) {
@@ -89,7 +90,6 @@ class Api {
             } else {
                 return tracks;
             }
-
         }
 
         return queryPlaylistTracks(playlistId);
@@ -101,18 +101,35 @@ class Api {
         var playListTrackMapping: PlayListTrackMapping = {};
 
         const playlists = await this.getPlaylists(userName);
+
+        let updatePlaylistTrackMapping = async (pl: SpotifyApi.PlaylistObjectSimplified, plMapping: PlayListTrackMapping): Promise<PlayListTrackMapping> => {
+
+            const playlistName = pl.name;
+            const playListTracks = await this.getPlaylistTracks(pl);
+    
+            if (playlistName in playListTrackMapping) {
+                plMapping[playlistName].push(...playListTracks);
+            } else {
+                plMapping[playlistName] = playListTracks;
+            }
+
+            return plMapping;
+
+        }
         
         for (const playlist of playlists) {
     
-            const playlistName = playlist.name;
-            const playListTracks = await this.getPlaylistTracks(playlist);
-    
-            if (playlistName in playListTrackMapping) {
-                playListTrackMapping[playlistName].push(...playListTracks);
-            } else {
-                playListTrackMapping[playlistName] = playListTracks;
+            try {
+                playListTrackMapping = await updatePlaylistTrackMapping(playlist, playListTrackMapping);
+            } catch(error) {
+                if (error instanceof XMLHttpRequest && error.response.includes('429')) {
+                    setTimeout(async () => {
+                        playListTrackMapping = await updatePlaylistTrackMapping(playlist, playListTrackMapping);
+                    }, 2000)
+                } else {
+                    throw new Error(error);
+                }
             }
-    
         }
         
         return playListTrackMapping
