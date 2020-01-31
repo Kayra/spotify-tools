@@ -15,6 +15,15 @@ class App extends Component {
       console.log(mapping);
       console.log(Object.keys(mapping).length);
     });
+    // api.buildPlaylistTrackMapping('golzernurf').then((mapping) => {
+    //   console.log(mapping);
+    //   console.log(Object.keys(mapping).length);
+    // });
+    // api.buildPlaylistTrackMapping('golzernurf').then((mapping) => {
+    //   console.log(mapping);
+    //   console.log(Object.keys(mapping).length);
+    // });
+    
 
   }
 

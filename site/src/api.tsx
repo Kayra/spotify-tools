@@ -54,7 +54,20 @@ class Api {
 
         let queryPlaylists = async (offset = 0, playlists: SpotifyApi.PlaylistObjectSimplified[] = []): Promise<SpotifyApi.PlaylistObjectSimplified[]> => {
 
-            const responsePlaylists = await this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset });
+            let responsePlaylists: any = [];
+
+            try {
+                responsePlaylists = await this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset });
+            } catch(error) {
+                if (error instanceof XMLHttpRequest && error.response.includes('429')) {
+                    setTimeout(async () => {
+                        responsePlaylists = await this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset });
+                    }, 2000)
+                } else {
+                    throw new Error(error);
+                }
+            }
+
             playlists.push(...responsePlaylists.items);
 
             if (responsePlaylists.next) {
@@ -79,7 +92,22 @@ class Api {
 
         let queryPlaylistTracks = async (playlistId: string, offset = 0, tracks: SpotifyApi.PlaylistTrackObject[] = []): Promise<SpotifyApi.PlaylistTrackObject[]> => {
 
-            const playlistTracks: SpotifyApi.PlaylistTrackResponse = await this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset });
+            let playlistTracks: any = [];
+
+            try {
+                playlistTracks = await this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset });
+            } catch(error) {
+                console.log('HIT')
+                if (error instanceof XMLHttpRequest && error.response.includes('429')) {
+                    await setTimeout(async () => {
+                        console.log('HIT')
+                        playlistTracks = await this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset });
+                        console.log(playlistTracks);
+                    }, 2000)
+                } else {
+                    throw new Error(error);
+                }
+            }
 
             tracks.push(...playlistTracks.items);
 
@@ -101,35 +129,18 @@ class Api {
         var playListTrackMapping: PlayListTrackMapping = {};
 
         const playlists = await this.getPlaylists(userName);
-
-        let updatePlaylistTrackMapping = async (pl: SpotifyApi.PlaylistObjectSimplified, plMapping: PlayListTrackMapping): Promise<PlayListTrackMapping> => {
-
-            const playlistName = pl.name;
-            const playListTracks = await this.getPlaylistTracks(pl);
-    
-            if (playlistName in playListTrackMapping) {
-                plMapping[playlistName].push(...playListTracks);
-            } else {
-                plMapping[playlistName] = playListTracks;
-            }
-
-            return plMapping;
-
-        }
         
         for (const playlist of playlists) {
     
-            try {
-                playListTrackMapping = await updatePlaylistTrackMapping(playlist, playListTrackMapping);
-            } catch(error) {
-                if (error instanceof XMLHttpRequest && error.response.includes('429')) {
-                    setTimeout(async () => {
-                        playListTrackMapping = await updatePlaylistTrackMapping(playlist, playListTrackMapping);
-                    }, 2000)
-                } else {
-                    throw new Error(error);
-                }
+            const playlistName = playlist.name;
+            const playListTracks = await this.getPlaylistTracks(playlist);
+    
+            if (playlistName in playListTrackMapping) {
+                playListTrackMapping[playlistName].push(...playListTracks);
+            } else {
+                playListTrackMapping[playlistName] = playListTracks;
             }
+
         }
         
         return playListTrackMapping
