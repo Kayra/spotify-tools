@@ -7,14 +7,20 @@ import logo from './logo.svg';
 
 class App extends Component {
 
-  componentDidMount() {
+  async componentDidMount() {
 
     const api = new Api();
 
-    api.buildPlaylistTrackMapping('golzernurf').then((mapping) => {
-      console.log(mapping);
-      console.log(Object.keys(mapping).length);
-    });
+    const playlistTrackMapping = await api.buildPlaylistTrackMapping('golzernurf');
+
+    const testInput = "happyface, alaskalaska";
+
+    const song = testInput.split(',')[0].trim()
+    const artist = testInput.split(',')[1].trim()
+
+    const matchedPlaylists = api.findPlaylistsWithTrack(song, artist, playlistTrackMapping);
+    console.log('playlists' + matchedPlaylists);
+
     // api.buildPlaylistTrackMapping('golzernurf').then((mapping) => {
     //   console.log(mapping);
     //   console.log(Object.keys(mapping).length);

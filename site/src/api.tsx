@@ -146,6 +146,15 @@ class Api {
         return playListTrackMapping
 
     }
+
+    findPlaylistsWithTrack(artist: string, song: string, playListTrackMapping: PlayListTrackMapping): string[] {
+
+        console.log(artist);
+        console.log(song);
+        console.log(playListTrackMapping);
+        
+        return []
+    }
     
 }
 
