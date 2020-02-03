@@ -15,8 +15,8 @@ class App extends Component {
 
     const testInput = "happyface, alaskalaska";
 
-    const song = testInput.split(',')[0].trim()
-    const artist = testInput.split(',')[1].trim()
+    const song = testInput.split(',')[0].trim();
+    const artist = testInput.split(',')[1].trim();
 
     const matchedPlaylists = api.findPlaylistsWithTrack(song, artist, playlistTrackMapping);
     console.log('playlists' + matchedPlaylists);

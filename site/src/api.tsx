@@ -55,18 +55,19 @@ class Api {
         let queryPlaylists = async (offset = 0, playlists: SpotifyApi.PlaylistObjectSimplified[] = []): Promise<SpotifyApi.PlaylistObjectSimplified[]> => {
 
             let responsePlaylists: any = [];
+            responsePlaylists = await this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset });
 
-            try {
-                responsePlaylists = await this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset });
-            } catch(error) {
-                if (error instanceof XMLHttpRequest && error.response.includes('429')) {
-                    setTimeout(async () => {
-                        responsePlaylists = await this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset });
-                    }, 2000)
-                } else {
-                    throw new Error(error);
-                }
-            }
+            // try {
+            //     responsePlaylists = await this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset });
+            // } catch(error) {
+            //     if (error instanceof XMLHttpRequest && error.response.includes('429')) {
+            //         setTimeout(async () => {
+            //             responsePlaylists = await this.spotifyApi.getUserPlaylists(userName, { limit: 50, offset: offset });
+            //         }, 2000)
+            //     } else {
+            //         throw new Error(error);
+            //     }
+            // }
 
             playlists.push(...responsePlaylists.items);
 
@@ -93,21 +94,22 @@ class Api {
         let queryPlaylistTracks = async (playlistId: string, offset = 0, tracks: SpotifyApi.PlaylistTrackObject[] = []): Promise<SpotifyApi.PlaylistTrackObject[]> => {
 
             let playlistTracks: any = [];
+            playlistTracks = await this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset });
 
-            try {
-                playlistTracks = await this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset });
-            } catch(error) {
-                console.log('HIT')
-                if (error instanceof XMLHttpRequest && error.response.includes('429')) {
-                    await setTimeout(async () => {
-                        console.log('HIT')
-                        playlistTracks = await this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset });
-                        console.log(playlistTracks);
-                    }, 2000)
-                } else {
-                    throw new Error(error);
-                }
-            }
+            // try {
+            //     playlistTracks = await this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset });
+            // } catch(error) {
+            //     console.log('HIT')
+            //     if (error instanceof XMLHttpRequest && error.response.includes('429')) {
+            //         await setTimeout(async () => {
+            //             console.log('HIT')
+            //             playlistTracks = await this.spotifyApi.getPlaylistTracks(playlistId, { limit: 50, offset: offset });
+            //             console.log(playlistTracks);
+            //         }, 2000)
+            //     } else {
+            //         throw new Error(error);
+            //     }
+            // }
 
             tracks.push(...playlistTracks.items);
 
@@ -126,6 +128,11 @@ class Api {
 
     async buildPlaylistTrackMapping(userName: string): Promise<PlayListTrackMapping> {
 
+        const cachedPlaylistTrackMapping = localStorage.getItem(userName);
+        if (cachedPlaylistTrackMapping != null) {
+            return JSON.parse(cachedPlaylistTrackMapping);
+        }
+
         var playListTrackMapping: PlayListTrackMapping = {};
 
         const playlists = await this.getPlaylists(userName);
@@ -142,8 +149,10 @@ class Api {
             }
 
         }
-        
-        return playListTrackMapping
+       
+        localStorage.setItem(userName, JSON.stringify(playListTrackMapping));
+
+        return playListTrackMapping;
 
     }
 
