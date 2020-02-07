@@ -9,5 +9,7 @@ spotify = Spotify()
 
 @app.get('/')
 async def root():
-    print(spotify.get_playlists('golzernurf'))
-    return {'message': 'Hello world.'}
+
+    playlists = spotify.get_playlists('golzernurf')
+    # return {'message': 'Hello world.'}
+    return playlists
