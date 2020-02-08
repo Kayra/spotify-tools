@@ -15,20 +15,24 @@ class Spotify:
 
     def get_playlists(self, username):
 
-        spotify_playlists = self.client.user_playlists(username)
-        user_playlists = spotify_playlists['items']
+        response_playlists = self.client.user_playlists(username)
+        playlists = response_playlists['items']
 
-        while spotify_playlists['next']:
-            offset = parse_qs(urlparse(spotify_playlists['next']).query)['offset'][0]
-            spotify_playlists = self.client.user_playlists(username, offset=offset)
-            user_playlists.extend(spotify_playlists['items'])
+        while response_playlists['next']:
+            offset = parse_qs(urlparse(response_playlists['next']).query)['offset'][0]
+            response_playlists = self.client.user_playlists(username, offset=offset)
+            playlists.extend(response_playlists['items'])
 
-        return user_playlists
+        return playlists
 
-    # def get_playlist_tracks(self, playlist):
-    #
-    #     playlist_tracks = []
-    #
-    #     while True:
-    #         tracks = self.client.playlist_items(playlist[''])
+    def get_playlist_tracks(self, playlist_id):
 
+        response_tracks = self.client.playlist_items(playlist_id)
+        tracks = response_tracks['items']
+
+        while response_tracks['next']:
+            offset = parse_qs(urlparse(response_tracks['next']).query)['offset'][0]
+            response_tracks = self.client.playlist_items(playlist_id, offset=offset)
+            tracks.extend(response_tracks['items'])
+
+        return tracks
