@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response, status
 
 from spotify_wrapper import Spotify
 
@@ -9,9 +9,14 @@ spotify = Spotify()
 
 @app.get('/')
 async def root():
+    return {'message': 'Hello world.'}
 
-    playlists = spotify.get_playlists('golzernurf')
-    tracks = spotify.get_playlist_tracks(playlists[0]['id'])
-    # return {'message': 'Hello world.'}
-    # return playlists[0]
-    return tracks
+
+@app.get('/find')
+async def find_track_playlist(response: Response, track: str = None, artist: str = None):
+
+    if not track and not artist:
+        response.status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+        return {'message': "Please add a 'track' or 'artist' url param."}
+
+    return {'message': 'Hello world.'}
