@@ -1,7 +1,9 @@
-from fastapi import FastAPI, Response, status
+from fastapi import FastAPI, Response, HTTPException, status
 
 from spotify_wrapper import Spotify
 from models import db, User
+
+from datetime import datetime
 
 app = FastAPI()
 spotify = Spotify()
@@ -24,8 +26,19 @@ async def find_track_playlist(response: Response, track: str = None, artist: str
 
 @app.post('/users')
 async def add_user(user: User):
+
+    user.playlist_track_mapping = {}
+    user.last_updated = datetime.now()
+
+    if db.users.find({'username': user.username}).count():
+        raise HTTPException(status_code=409, detail=f'User {user.username} already exists.')
+
     added_user = db.users.insert_one(user.dict())
-    return {'user': str(added_user.inserted_id)}
+
+    if added_user.acknowledged:
+        return {'user': user}
+    else:
+        raise HTTPException(status_code=500, detail=f'Unable to add User {user.username}.')
 
 
 @app.get('/users')
