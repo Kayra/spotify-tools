@@ -13,6 +13,21 @@ class Spotify:
         self.client = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=client_id,
                                                                             client_secret=client_secret))
 
+    @staticmethod
+    def _response_track_to_local_track(response_track):
+
+        local_track = {
+            'added_at': response_track['added_at'],
+            'added_by': response_track['added_by']['id'],
+            'id': response_track['track']['id'],
+            'name': response_track['track']['name'],
+            'artist': ', '.join([artist['name'] for artist in response_track['track']['artists']]),
+            'album': response_track['track']['album']['name'],
+            'released_at': response_track['track']['album']['release_date']
+        }
+
+        return local_track
+
     def get_playlists(self, username):
 
         response_playlists = self.client.user_playlists(username)
@@ -28,11 +43,21 @@ class Spotify:
     def get_playlist_tracks(self, playlist_id):
 
         response_tracks = self.client.playlist_items(playlist_id)
-        tracks = response_tracks['items']
+        tracks = [self._response_track_to_local_track(track) for track in response_tracks['items']]
 
         while response_tracks['next']:
             offset = parse_qs(urlparse(response_tracks['next']).query)['offset'][0]
             response_tracks = self.client.playlist_items(playlist_id, offset=offset)
-            tracks.extend(response_tracks['items'])
+            tracks.extend([self._response_track_to_local_track(track) for track in response_tracks['items']])
 
         return tracks
+
+    def build_playlist_track_mapping(self, username):
+
+        mapping = {}
+
+        playlists = self.get_playlists(username)
+        for playlist in playlists:
+            mapping[playlist['name']] = self.get_playlist_tracks(playlist['id'])
+
+        return mapping

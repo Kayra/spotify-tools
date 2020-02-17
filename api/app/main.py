@@ -27,15 +27,16 @@ async def find_track_playlist(response: Response, track: str = None, artist: str
 @app.post('/users')
 async def add_user(user: User):
 
-    user.playlist_track_mapping = {}
-    user.last_updated = datetime.now()
-
     if db.users.find({'username': user.username}).count():
         raise HTTPException(status_code=409, detail=f'User {user.username} already exists.')
 
-    added_user = db.users.insert_one(user.dict())
+    user.playlist_track_mapping = spotify.build_playlist_track_mapping(user.username)
+    user.last_updated = datetime.now()
 
-    if added_user.acknowledged:
+    db.users._insert(user.dict(), check_keys=False)
+
+    added_user = db.users.find({'username': user.username})
+    if added_user.count() > 0:
         return {'user': user}
     else:
         raise HTTPException(status_code=500, detail=f'Unable to add User {user.username}.')
