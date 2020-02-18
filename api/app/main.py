@@ -43,10 +43,22 @@ async def add_user(user: User):
 
 
 @app.get('/users')
-async def find_user():
+async def find_users():
 
     users = []
     for user in db.users.find():
         users.append(User(**user))
 
     return {'users': users}
+
+
+@app.get('/users/{username}')
+async def find_user(username: str):
+
+    user = db.users.find_one({'username': username})
+
+    if user:
+        del user['_id']
+        return {'user': user}
+    else:
+        raise HTTPException(status_code=404, detail=f'User {username} does not exist.')
