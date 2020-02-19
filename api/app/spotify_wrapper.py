@@ -1,4 +1,5 @@
 import os
+from typing import Dict
 from urllib.parse import urlparse, parse_qs
 
 import spotipy
@@ -61,3 +62,9 @@ class Spotify:
             mapping[playlist['name']] = self.get_playlist_tracks(playlist['id'])
 
         return mapping
+
+    @staticmethod
+    def find_playlists_containing_track(mapping: Dict, track: str = None, artist: str = None):
+
+        if not track and not artist:
+            return None

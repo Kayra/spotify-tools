@@ -14,14 +14,19 @@ async def root():
     return {'message': 'Hello world.'}
 
 
-@app.get('/find')
-async def find_track_playlist(response: Response, track: str = None, artist: str = None):
+@app.get('/spotify/find')
+async def find_track_playlists(username: str, track: str = None, artist: str = None):
 
-    if not track and not artist:
-        response.status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-        return {'message': "Please add a 'track' or 'artist' url param."}
+    if track and artist:
+        pass
 
-    return {'message': 'Hello world.'}
+    if track:
+        pass
+
+    if artist:
+        pass
+
+    raise HTTPException(status_code=422, detail="Please add a 'track' or 'artist' url param.")
 
 
 @app.post('/users')
