@@ -1,5 +1,5 @@
 import os
-from typing import Dict
+from typing import Optional, Dict, Set
 from urllib.parse import urlparse, parse_qs
 
 import spotipy
@@ -64,7 +64,17 @@ class Spotify:
         return mapping
 
     @staticmethod
-    def find_playlists_containing_track(mapping: Dict, track: str = None, artist: str = None):
+    def find_playlists_containing_track(mapping: Dict, track_name: str = None, artist: str = None) -> Optional[Set[str]]:
 
-        if not track and not artist:
+        if not track_name and not artist:
             return None
+
+        playlists = []
+
+        for playlist, tracks in mapping.items():
+
+            for playlist_track in tracks:
+                if (track_name and track_name.lower() == playlist_track['name'].lower()) or (artist and artist.lower() in playlist_track['artist'].lower()):
+                    playlists.append(playlist)
+
+        return set(playlists)

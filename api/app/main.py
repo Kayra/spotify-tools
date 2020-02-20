@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Response, HTTPException, status
+from fastapi import FastAPI, HTTPException
 
 from spotify_wrapper import Spotify
 from models import db, User
@@ -17,16 +17,19 @@ async def root():
 @app.get('/spotify/find')
 async def find_track_playlists(username: str, track: str = None, artist: str = None):
 
-    if track and artist:
-        pass
+    user = db.users.find_one({'username': username})
+    if not user:
+        raise HTTPException(status_code=404, detail=f'User {username} does not exist.')
 
-    if track:
-        pass
+    if not track and not artist:
+        raise HTTPException(status_code=422, detail="Please add a 'track' or 'artist' url param (or both).")
 
-    if artist:
-        pass
+    track_playlists = spotify.find_playlists_containing_track(user['playlist_track_mapping'], track, artist)
 
-    raise HTTPException(status_code=422, detail="Please add a 'track' or 'artist' url param.")
+    if track_playlists:
+        return {'playlists': track_playlists}
+    else:
+        raise HTTPException(status_code=404, detail=f'No playlists found for track: {track}, artist: {artist}, user: {username}')
 
 
 @app.post('/users')
