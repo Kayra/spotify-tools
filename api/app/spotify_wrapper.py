@@ -64,17 +64,25 @@ class Spotify:
         return mapping
 
     @staticmethod
-    def find_playlists_containing_track(mapping: Dict, track_name: str = None, artist: str = None) -> Optional[Set[str]]:
+    def find_playlists_containing_track(playlist_track_mapping: Dict, track_name: str = None, artist: str = None) -> Optional[Set[str]]:
 
         if not track_name and not artist:
             return None
 
         playlists = []
 
-        for playlist, tracks in mapping.items():
+        for playlist, tracks in playlist_track_mapping.items():
 
             for playlist_track in tracks:
                 if (track_name and track_name.lower() == playlist_track['name'].lower()) or (artist and artist.lower() in playlist_track['artist'].lower()):
                     playlists.append(playlist)
 
         return set(playlists)
+
+    @staticmethod
+    def simplify_playlist_track_mapping(playlist_track_mapping: Dict):
+
+        for playlist, tracks in playlist_track_mapping.items():
+
+            for playlist_track in tracks:
+                pass
