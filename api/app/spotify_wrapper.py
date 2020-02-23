@@ -85,4 +85,9 @@ class Spotify:
         for playlist, tracks in playlist_track_mapping.items():
 
             for playlist_track in tracks:
-                pass
+                del playlist_track['added_at']
+                del playlist_track['added_by']
+                del playlist_track['id']
+                del playlist_track['released_at']
+
+        return playlist_track_mapping
