@@ -48,6 +48,19 @@ async def create_playlist_map_backup(username: str, simple=False):
     return {'backup': playlist_track_mapping}
 
 
+@app.get('/spotify/timeline')
+async def create_playlist_track_timeline(username: str):
+
+    user = db.users.find_one({'username': username})
+    if not user:
+        raise HTTPException(status_code=404, detail=f'User {username} does not exist.')
+
+    playlist_track_mapping = user['playlist_track_mapping']
+    playlist_track_timeline = spotify.build_track_timeline(playlist_track_mapping)
+
+    return {'timeline': playlist_track_timeline}
+
+
 @app.post('/users')
 async def add_user(user: User):
 

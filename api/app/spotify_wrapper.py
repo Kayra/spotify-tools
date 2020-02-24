@@ -80,7 +80,7 @@ class Spotify:
         return set(playlists)
 
     @staticmethod
-    def simplify_playlist_track_mapping(playlist_track_mapping: Dict):
+    def simplify_playlist_track_mapping(playlist_track_mapping: Dict) -> Dict:
 
         for playlist, tracks in playlist_track_mapping.items():
 
@@ -90,4 +90,8 @@ class Spotify:
                 del playlist_track['id']
                 del playlist_track['released_at']
 
+        return playlist_track_mapping
+
+    @staticmethod
+    def build_track_timeline(playlist_track_mapping: Dict) -> Dict:
         return playlist_track_mapping
