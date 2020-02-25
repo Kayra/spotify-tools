@@ -1,12 +1,7 @@
 from pydantic import BaseModel, Field
-from pymongo import MongoClient
 
 from datetime import datetime
 from typing import Dict, Optional
-
-
-client = MongoClient()
-db = client.spotify
 
 
 class User(BaseModel):
