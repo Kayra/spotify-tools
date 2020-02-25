@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from typing import Optional, Dict, Set
 from urllib.parse import urlparse, parse_qs
 
@@ -83,7 +84,6 @@ class Spotify:
     def simplify_playlist_track_mapping(playlist_track_mapping: Dict) -> Dict:
 
         for playlist, tracks in playlist_track_mapping.items():
-
             for playlist_track in tracks:
                 del playlist_track['added_at']
                 del playlist_track['added_by']
@@ -94,4 +94,19 @@ class Spotify:
 
     @staticmethod
     def build_track_timeline(playlist_track_mapping: Dict) -> Dict:
-        return playlist_track_mapping
+
+        track_timeline = {}
+
+        for playlist, tracks in playlist_track_mapping.items():
+            for playlist_track in tracks:
+
+                date = str(datetime.fromisoformat(playlist_track['added_at'].replace('Z','')).date())
+                del playlist_track['added_at']
+                playlist_track['playlist'] = playlist
+
+                if date in track_timeline:
+                    track_timeline[date].append(playlist_track)
+                else:
+                    track_timeline[date] = [playlist_track]
+
+        return track_timeline
