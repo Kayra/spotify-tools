@@ -17,7 +17,9 @@ mongo_port = os.environ.get('MONGO_PORT')
 mongo_user = os.environ.get('MONGO_USER')
 mongo_password = os.environ.get('MONGO_PASSWORD')
 mongo_db = os.environ.get('MONGO_DB')
-client = MongoClient(f'mongodb://{mongo_user}:{mongo_password}@{mongo_host}:{mongo_port}/{mongo_db}')
+mongo_connection_string = f'mongodb://{mongo_user}:{mongo_password}@{mongo_host}:{mongo_port}/{mongo_db}'
+
+client = MongoClient(mongo_connection_string)
 db = client.spotify
 
 

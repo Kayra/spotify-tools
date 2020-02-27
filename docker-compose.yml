@@ -13,8 +13,8 @@ services:
     environment:
       - ENVIRONMENT=dev
       - TESTING=0
-      - SPOTIFY_CLIENT_SECRET=f6971745c6984002ac71e886a56d5fd9
-      - SPOTIFY_CLIENT_ID=fa97525d779649ddb81e0b512b821848
+    env_file:
+      - .env
     depends_on:
       - mongo_db
 
