@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+
+  api:
+    container_name: spotify.api
+    build: ./api
+    command: uvicorn main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    volumes:
+      - ./api/app:/app
+    ports:
+      - 8000:8000
+    environment:
+      - ENVIRONMENT=dev
+      - TESTING=0
+      - SPOTIFY_CLIENT_SECRET=f6971745c6984002ac71e886a56d5fd9
+      - SPOTIFY_CLIENT_ID=fa97525d779649ddb81e0b512b821848
+    depends_on:
+      - mongo_db
+
+  mongo_db:
+    container_name: spotify.mongo_db
+    image: mongo
+    env_file:
+      - .env
