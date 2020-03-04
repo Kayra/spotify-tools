@@ -1,4 +1,4 @@
-.PHONY: install start dot-env
+.PHONY: install start dot-env api-shell mongo-shell
 
 
 install:
@@ -29,4 +29,4 @@ api-shell:
 
 
 mongo-shell:
-	@docker exec -it spotify.mongo_db bash
+	@docker exec -it spotify.mongo_db mongo admin -u admin -p 'local_insecure_pass'
