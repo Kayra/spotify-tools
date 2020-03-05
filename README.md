@@ -17,29 +17,38 @@ Built from personal needs based on how I use Spotify. Feel free to request featu
   - Top artists
 
 ### Technologies used:
-* Fastapi
-* Typescript
-* React
+* [Fastapi](https://fastapi.tiangolo.com)
+* [Python Spotify Wrapper (Spotipy)](https://github.com/plamere/spotipy)
+* [Typescript](https://www.typescriptlang.org)
+* [React](https://reactjs.org)
 * [Spotify API](https://developer.spotify.com/documentation/web-api/)
-* [Spotify API wrapper](https://github.com/JMPerez/spotify-web-api-js)
 
-## Set up
+## Development Installation and Use
 
 ### Server
 
-Create a venv and install the requirements:
+Install the application:
 
 ```bash
-cd api/app
-python3 -m venv venv
-pip install -r requirements.txt
+make install
 ```
 
-Start the server:
+Start the application (after installation):
 
 ```bash
-cd api/app
-uvicorn main:app --reload
+make start
+```
+
+Connect to the api Docker container bash (while the application is running):
+
+```bash
+make api-shell
+```
+
+Connect to the api Mongo client (while the application is running):
+
+```bash
+make mongo-shell
 ```
 
 #### Client
