@@ -23,9 +23,9 @@ Built from personal needs based on how I use Spotify. Feel free to request featu
 * [React](https://reactjs.org)
 * [Spotify API](https://developer.spotify.com/documentation/web-api/)
 
-## Development Installation and Use
+## Development Application Installation and Use
 
-### Server
+### API Server
 
 Install the application:
 
@@ -39,19 +39,19 @@ Start the application (after installation):
 make start
 ```
 
-Connect to the api Docker container bash (while the application is running):
+Connect to the API Docker container bash (while the application is running):
 
 ```bash
 make api-shell
 ```
 
-Connect to the api Mongo client (while the application is running):
+Connect to the API Mongo client (while the application is running):
 
 ```bash
 make mongo-shell
 ```
 
-#### Client
+#### Web Client
 
 Install node modules:
 
@@ -67,3 +67,6 @@ cd client
 npm run start
 ```
 
+---
+
+Be sure to import the [insomnia](https://insomnia.rest) client project in [docs/Insomnia_2021-08-21.json](docs/Insomnia_2021-08-21.json) to quickly get started with making requests to the API.
