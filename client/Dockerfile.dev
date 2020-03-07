@@ -1,0 +1,22 @@
+FROM node:16-alpine
+
+RUN apk update
+RUN apk upgrade --available
+
+RUN mkdir /client
+COPY . /client
+
+ENV PATH=/node_modules/.bin:$PATH
+COPY package*.json ./
+
+RUN apk add --no-cache make gcc g++ python3 && \
+  npm install && \
+  npm cache clean --force && \
+  apk del make gcc g++ python3 && \
+  npm update
+
+WORKDIR /client
+ENV NODE_ENV DEV
+EXPOSE 3000
+
+ENTRYPOINT ["npm", "run", "start"]
