@@ -67,6 +67,12 @@ cd client
 npm run start
 ```
 
+Build and run the production Docker container (accessible at [http://localhost](http://localhost)):
+
+```bash
+docker build --no-cache -t spotify-client . && docker run -p 80:80 spotify-client
+```
+
 ---
 
 Be sure to import the [insomnia](https://insomnia.rest) client project in [docs/Insomnia_2021-08-21.json](docs/Insomnia_2021-08-21.json) to quickly get started with making requests to the API.
