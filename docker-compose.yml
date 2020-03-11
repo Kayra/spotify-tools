@@ -40,7 +40,7 @@ services:
       - .env
 
   client:
-    container_name: curation.client
+    container_name: spotify.client
     command: bash -c "rm -rf /client/node_modules/*"
     restart: always
     build:
