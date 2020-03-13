@@ -9,11 +9,7 @@ COPY . /client
 ENV PATH=/node_modules/.bin:$PATH
 COPY package*.json ./
 
-RUN apk add --no-cache make gcc g++ python3 && \
-  npm install && \
-  npm cache clean --force && \
-  apk del make gcc g++ python3 && \
-  npm update
+RUN npm install
 
 WORKDIR /client
 ENV NODE_ENV DEV
