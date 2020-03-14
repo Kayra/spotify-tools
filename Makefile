@@ -30,3 +30,7 @@ api-shell:
 
 mongo-shell:
 	@docker exec -it spotify.mongo_db mongo admin -u admin -p 'local_insecure_pass'
+
+
+client-shell:
+	@docker exec -it spotify.client sh

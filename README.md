@@ -22,10 +22,11 @@ Built from personal needs based on how I use Spotify. Feel free to request featu
 * [Typescript](https://www.typescriptlang.org)
 * [React](https://reactjs.org)
 * [Spotify API](https://developer.spotify.com/documentation/web-api/)
+* [Docker/Compose](https://www.docker.com)
 
 ## Development Application Installation and Use
 
-### API Server
+**Ensure you have Docker installed to run the application locally.**
 
 Install the application:
 
@@ -51,23 +52,13 @@ Connect to the API Mongo client (while the application is running):
 make mongo-shell
 ```
 
-#### Web Client
-
-Install node modules:
+Connect to the client Docker container shell (while the application is running):
 
 ```bash
-cd client
-npm i
+make client-shell
 ```
 
-Start the react app client :
-
-```bash
-cd client
-npm run start
-```
-
-Build and run the production Docker container (accessible at [http://localhost](http://localhost)):
+Build and run the production client Docker container (accessible at [http://localhost](http://localhost)):
 
 ```bash
 docker build --no-cache -t spotify-client . && docker run -p 80:80 spotify-client
