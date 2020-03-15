@@ -1,16 +1,16 @@
 interface Configuration {
     env: string;
-    spotifyClientId: string
-    spotifyClientSecret: string
+    apiHost: string
 }
 
 export function getConfig(): Configuration {
 
     let config: Configuration = {
-        'env': process.env.NODE_ENV || 'default',
-        'spotifyClientId': process.env.REACT_APP_SPOTIFY_CLIENT_ID || '',
-        'spotifyClientSecret': process.env.REACT_APP_SPOTIFY_CLIENT_SECRET || ''
+        'env': process.env.REACT_APP_NODE_ENV || 'dev',
+        'apiHost': process.env.REACT_APP_API_HOST || ''
     };
+
+    console.log("HIT", process.env.REACT_APP_API_HOST);
 
     return config;
 

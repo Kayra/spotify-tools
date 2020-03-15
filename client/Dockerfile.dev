@@ -12,7 +12,7 @@ COPY package*.json ./
 RUN npm install
 
 WORKDIR /client
-ENV NODE_ENV DEV
+ENV REACT_APP_NODE_ENV DEV
 EXPOSE 3000
 
 ENTRYPOINT ["npm", "run", "start"]
