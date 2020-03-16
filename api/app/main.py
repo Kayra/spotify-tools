@@ -2,6 +2,7 @@ import os
 
 from pymongo import MongoClient
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from spotify_wrapper import Spotify
 from views.user_views import router as user_views_router
@@ -11,6 +12,17 @@ from views.spotify_views import router as spotify_views_router
 app = FastAPI()
 spotify = Spotify()
 
+origins = [
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 mongo_user = os.environ.get('MONGO_USER')
 mongo_password = os.environ.get('MONGO_PASSWORD')

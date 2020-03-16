@@ -18,10 +18,7 @@ class Api {
         const response = await axios({
             method: 'POST',
             url: `${this.apiHost}/users`,
-            data: {"username": userName},
-            headers: {
-                "Content-Type": "application/application/json",
-            }
+            data: {username: userName}
         });
 
         return response;
