@@ -19,6 +19,10 @@ class Api {
             method: 'POST',
             url: `${this.apiHost}/users`,
             data: {username: userName}
+        }).catch(error => {
+            if (error.message.includes('409')) {
+                console.log(error.response.data);
+            }
         });
 
         return response;

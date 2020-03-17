@@ -10,8 +10,6 @@ export function getConfig(): Configuration {
         'apiHost': process.env.REACT_APP_API_HOST || ''
     };
 
-    console.log("HIT", process.env.REACT_APP_API_HOST);
-
     return config;
 
 }
