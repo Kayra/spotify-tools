@@ -17,7 +17,7 @@ class App extends Component {
     const song = testInput.split(',')[0].trim();
     const artist = testInput.split(',')[1].trim();
 
-    api.createUser('golzernurf');
+    await api.userCreate('golzernurf');
 
   }
 

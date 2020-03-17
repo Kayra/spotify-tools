@@ -12,7 +12,7 @@ class Api {
 
     apiHost = getConfig().apiHost;
 
-    async createUser(userName: string): Promise<any> {
+    async userCreate(userName: string): Promise<any> {
 
         const response = await axios({
             method: 'POST',
@@ -26,6 +26,18 @@ class Api {
 
         return response;
 
+    }
+
+    async spotifyFind(userName: string, track?: string, artist?: string): Promise<any> {
+
+    }
+
+    async spotifyBackup(userName: string): Promise<any> {
+
+    } 
+
+    async spotifyTimeline(userName: string): Promise<any> {
+        
     }
 
 }
