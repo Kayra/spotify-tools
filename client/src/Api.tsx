@@ -7,6 +7,10 @@ class Api {
 
     apiHost = getConfig().apiHost;
 
+    isExpectedError(errorMessage: string, expectedErrors: Array<string>): boolean {
+        return expectedErrors.some(expectedError => errorMessage.includes(expectedError));
+    }
+
     async userCreate(userName: string): Promise<any> {
 
         const expectedErrors = ['409', '500']
@@ -16,7 +20,7 @@ class Api {
             url: `${this.apiHost}/users`,
             data: {username: userName}
         }).catch(error => {
-            if (expectedErrors.some(expectedError => error.message.includes(expectedError))) {
+            if (this.isExpectedError(error.message, expectedErrors)) {
                 console.log(error.response.data);
             }
         });
@@ -38,7 +42,7 @@ class Api {
                 artist: artist
             }
         }).catch(error => {
-            if (expectedErrors.some(expectedError => error.message.includes(expectedError))) {
+            if (this.isExpectedError(error.message, expectedErrors)) {
                 console.log(error.response.data);
             }
         });
