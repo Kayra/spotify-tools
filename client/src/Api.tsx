@@ -1,12 +1,11 @@
 import axios from "axios";
-import SpotifyWebApi from 'spotify-web-api-js';
 
 import { getConfig } from './config';
 
 
-interface PlayListTrackMapping {
-    [playlistName: string]: SpotifyApi.PlaylistTrackObject[]
-  }
+// interface PlayListTrackMapping {
+//     [playlistName: string]: SpotifyApi.PlaylistTrackObject[]
+//   }
 
 
 class Api {
