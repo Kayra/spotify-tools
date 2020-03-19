@@ -51,7 +51,24 @@ class Api {
 
     }
 
-    async spotifyBackup(userName: string): Promise<any> {
+    async spotifyBackup(userName: string, simple?: boolean): Promise<any> {
+
+        const expectedErrors = ['404', '422']
+
+        const response = await axios({
+            method: 'GET',
+            url: `${this.apiHost}/spotify/backup`,
+            params: {
+                username: userName,
+                simple: simple
+            }
+        }).catch(error => {
+            if (this.isExpectedError(error.message, expectedErrors)) {
+                console.log(error.response.data);
+            }
+        });
+
+        return response;
 
     } 
 
