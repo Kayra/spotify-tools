@@ -53,7 +53,7 @@ class Api {
 
     async spotifyBackup(userName: string, simple?: boolean): Promise<any> {
 
-        const expectedErrors = ['404', '422']
+        const expectedErrors = ['404']
 
         const response = await axios({
             method: 'GET',
@@ -73,6 +73,22 @@ class Api {
     } 
 
     async spotifyTimeline(userName: string): Promise<any> {
+
+        const expectedErrors = ['404']
+
+        const response = await axios({
+            method: 'GET',
+            url: `${this.apiHost}/spotify/timeline`,
+            params: {
+                username: userName
+            }
+        }).catch(error => {
+            if (this.isExpectedError(error.message, expectedErrors)) {
+                console.log(error.response.data);
+            }
+        });
+
+        return response;
 
     }
 
