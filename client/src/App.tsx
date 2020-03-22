@@ -2,25 +2,55 @@ import React, { Component } from 'react';
 
 import './App.css';
 import Api from './Api';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 
 
-class App extends Component {
+interface IProps {
+}
 
-  async componentDidMount() {
+interface IState {
+  userName: string;
+}
 
-    const api = new Api();
+
+class App extends Component<IProps, IState> {
+
+  api: Api;
+
+  // async componentDidMount() {
+
+    // const api = new Api();
 
 
-    const testInput = "happyface, alaskalaska";
+    // const testInput = "happyface, alaskalaska";
 
-    const song = testInput.split(',')[0].trim();
-    const artist = testInput.split(',')[1].trim();
+    // const song = testInput.split(',')[0].trim();
+    // const artist = testInput.split(',')[1].trim();
 
-    await api.spotifyTimeline('golzernurf');
+    // await api.spotifyTimeline('golzernurf');
+
+  // }
+
+  constructor(props: any) {
+
+    super(props);
+
+    this.api = new Api();
+    this.state = {userName: ''};
+  
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handleUsernameSubmit = this.handleUsernameSubmit.bind(this);
 
   }
 
+  handleUsernameChange(event: any): void {
+    this.setState({userName: event.target.value});
+  }
+
+  async handleUsernameSubmit(event: any): Promise<void> {
+    event.preventDefault();
+    console.log(await this.api.userCreate(this.state.userName));
+  }
 
   render() {
     return <div className="App">
@@ -40,6 +70,17 @@ class App extends Component {
         <p>Be sure to <a href="https://twitter.com/kayraalat" target="_blank" rel="noreferrer">tweet at me</a> or <a href="https://github.com/Kayra/spotify-tools/issues" target="_blank" rel="noreferrer">create a Github issue</a> if there's a feature you'd like to see.</p>
 
         <hr></hr>
+
+        <div className="user">
+          <h2>Register your username</h2>
+          <form onSubmit={this.handleUsernameSubmit}>
+            <label>
+              Name:
+              <input type="text" value={this.state.userName} onChange={this.handleUsernameChange} />
+            </label>
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
 
         <div>
           <h2>Song Duplicate Check</h2>
