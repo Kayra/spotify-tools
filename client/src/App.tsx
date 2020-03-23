@@ -17,20 +17,6 @@ class App extends Component<IProps, IState> {
 
   api: Api;
 
-  // async componentDidMount() {
-
-    // const api = new Api();
-
-
-    // const testInput = "happyface, alaskalaska";
-
-    // const song = testInput.split(',')[0].trim();
-    // const artist = testInput.split(',')[1].trim();
-
-    // await api.spotifyTimeline('golzernurf');
-
-  // }
-
   constructor(props: any) {
 
     super(props);
@@ -72,7 +58,7 @@ class App extends Component<IProps, IState> {
         <hr></hr>
 
         <div className="user">
-          <h2>Register your username</h2>
+          <h2>Register your username to get started</h2>
           <form onSubmit={this.handleUsernameSubmit}>
             <label>
               Name:
