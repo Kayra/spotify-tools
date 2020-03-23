@@ -10,6 +10,7 @@ interface IProps {
 
 interface IState {
   userName: string;
+  validUser: boolean;
 }
 
 
@@ -22,7 +23,10 @@ class App extends Component<IProps, IState> {
     super(props);
 
     this.api = new Api();
-    this.state = {userName: ''};
+    this.state = {
+      userName: '',
+      validUser: false
+    };
   
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleUsernameSubmit = this.handleUsernameSubmit.bind(this);
@@ -34,8 +38,16 @@ class App extends Component<IProps, IState> {
   }
 
   async handleUsernameSubmit(event: any): Promise<void> {
+
     event.preventDefault();
-    console.log(await this.api.userCreate(this.state.userName));
+    const response = await this.api.userCreate(this.state.userName);
+
+    if (response.status === 200 || response.status === 409) {
+      this.setState({validUser: true});
+    } else {
+      alert(response.data);
+    }
+
   }
 
   render() {
@@ -61,24 +73,29 @@ class App extends Component<IProps, IState> {
           <h2>Register your username to get started</h2>
           <form onSubmit={this.handleUsernameSubmit}>
             <label>
-              Name:
-              <input type="text" value={this.state.userName} onChange={this.handleUsernameChange} />
+              Name: <input type="text" value={this.state.userName} onChange={this.handleUsernameChange} />
             </label>
             <input type="submit" value="Submit" />
           </form>
         </div>
 
-        <div>
-          <h2>Song Duplicate Check</h2>
-        </div>
+        {
+          this.state.validUser ?
+            <div className="features">
+              <div>
+                <h2>Song Duplicate Check</h2>
+              </div>
 
-        <div>
-          <h2>Song Timeline</h2>
-        </div>
+              <div>
+                <h2>Song Timeline</h2>
+              </div>
 
-        <div>
-          <h2>Library Playlist Backup</h2>
-        </div>
+              <div>
+                <h2>Library Playlist Backup</h2>
+              </div>
+            </div>
+          : ""
+        }
 
       </header>
     </div>
