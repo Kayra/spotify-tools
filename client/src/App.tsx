@@ -11,8 +11,10 @@ interface IProps {
 interface IState {
   userName: string;
   validUser: boolean;
+  track: string;
+  artist: string;
+  duplicatePlaylists: Array<string>;
 }
-
 
 class App extends Component<IProps, IState> {
 
@@ -25,12 +27,18 @@ class App extends Component<IProps, IState> {
     this.api = new Api();
     this.state = {
       userName: '',
-      validUser: false
+      validUser: false,
+      track: '',
+      artist: '',
+      duplicatePlaylists: []
     };
   
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleUsernameSubmit = this.handleUsernameSubmit.bind(this);
 
+    this.handleTrackChange = this.handleTrackChange.bind(this);
+    this.handleArtistChange = this.handleArtistChange.bind(this);
+    this.handleDuplicateSubmit = this.handleDuplicateSubmit.bind(this);
   }
 
   handleUsernameChange(event: any): void {
@@ -49,6 +57,24 @@ class App extends Component<IProps, IState> {
     }
 
   }
+
+  handleTrackChange(event: any): void {
+    this.setState({track: event.target.value});
+  }
+
+  handleArtistChange(event: any): void {
+    this.setState({artist: event.target.value});
+  }
+
+  async handleDuplicateSubmit(event: any): Promise<void> {
+    
+    event.preventDefault();
+    const response = await this.api.spotifyFind(this.state.userName, this.state.track, this.state.artist);
+    console.log(response);
+    this.setState({duplicatePlaylists: response.data['playlists']});
+  }
+
+
 
   render() {
     return <div className="App">
@@ -82,8 +108,25 @@ class App extends Component<IProps, IState> {
         {
           this.state.validUser ?
             <div className="features">
+
               <div>
                 <h2>Song Duplicate Check</h2>
+                <form onSubmit={this.handleDuplicateSubmit}>
+                  <label>
+                    Track: <input type="text" value={this.state.track} onChange={this.handleTrackChange} />
+                    Artist: <input type="text" value={this.state.artist} onChange={this.handleArtistChange} />
+                  </label>
+                  <input type="submit" value="Submit" />
+                </form>
+
+                {
+                  this.state.duplicatePlaylists ?
+                    <ul>
+                      {this.state.duplicatePlaylists.map(playList => <li key={playList}>{playList}</li>)}
+                    </ul>
+                  : ""
+                }
+
               </div>
 
               <div>

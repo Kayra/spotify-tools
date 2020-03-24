@@ -45,6 +45,7 @@ class Api {
         }).catch(error => {
             if (this.isExpectedError(error.message, expectedErrors)) {
                 console.log(error.response.data);
+                return error.response;
             }
         });
 
@@ -66,6 +67,7 @@ class Api {
         }).catch(error => {
             if (this.isExpectedError(error.message, expectedErrors)) {
                 console.log(error.response.data);
+                return error.response;
             }
         });
 
@@ -86,6 +88,7 @@ class Api {
         }).catch(error => {
             if (this.isExpectedError(error.message, expectedErrors)) {
                 console.log(error.response.data);
+                return error.response;
             }
         });
 
