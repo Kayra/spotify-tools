@@ -14,6 +14,7 @@ interface IState {
   track: string;
   artist: string;
   duplicatePlaylists: Array<string>;
+  backup: object;
 }
 
 class App extends Component<IProps, IState> {
@@ -30,7 +31,8 @@ class App extends Component<IProps, IState> {
       validUser: false,
       track: '',
       artist: '',
-      duplicatePlaylists: []
+      duplicatePlaylists: [],
+      backup: {}
     };
   
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -39,6 +41,9 @@ class App extends Component<IProps, IState> {
     this.handleTrackChange = this.handleTrackChange.bind(this);
     this.handleArtistChange = this.handleArtistChange.bind(this);
     this.handleDuplicateSubmit = this.handleDuplicateSubmit.bind(this);
+
+    this.handleBackupSubmit = this.handleBackupSubmit.bind(this);
+
   }
 
   handleUsernameChange(event: any): void {
@@ -70,10 +75,17 @@ class App extends Component<IProps, IState> {
     
     event.preventDefault();
     const response = await this.api.spotifyFind(this.state.userName, this.state.track, this.state.artist);
-    console.log(response);
     this.setState({duplicatePlaylists: response.data['playlists']});
+
   }
 
+  async handleBackupSubmit(event:any): Promise<void> {
+    
+    event.preventDefault();
+    const response = await this.api.spotifyBackup(this.state.userName, true);
+    this.setState({backup: response.data['backup']});
+
+  }
 
 
   render() {
@@ -130,12 +142,23 @@ class App extends Component<IProps, IState> {
               </div>
 
               <div>
-                <h2>Song Timeline</h2>
+                <h2>Library Playlist Backup</h2>
+                <form onSubmit={this.handleBackupSubmit}>
+                  <input type="submit" value="Prepare backup" />
+                </form>
+
+                {
+                  Object.values(this.state.backup).length ?
+                    <a href={encodeURI("data:text/plain;utf-8," + JSON.stringify(this.state.backup).replace(/#/g, '%23'))} target="_blank" download="spotify_backup.txt">Download back up</a>
+                  : ""
+                }                
+
               </div>
 
               <div>
-                <h2>Library Playlist Backup</h2>
+                <h2>Song Timeline</h2>
               </div>
+
             </div>
           : ""
         }
