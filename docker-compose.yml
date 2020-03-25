@@ -41,7 +41,7 @@ services:
 
   client:
     container_name: spotify.client
-    command: bash -c "rm -rf /client/node_modules/*"
+    # command: bash -c "rm -rf /client/node_modules/*"
     restart: always
     build:
       context: ./client
@@ -50,10 +50,10 @@ services:
       - "3000:3000"
     volumes:
       - ./client:/client
-      - exclude:/client/node_modules
+      # - exclude:/client/node_modules
     environment:
       - CHOKIDAR_USEPOLLING="true"
       - REACT_APP_API_HOST=http://localhost:8000
 
-volumes:
-  exclude:
+# volumes:
+  # exclude:

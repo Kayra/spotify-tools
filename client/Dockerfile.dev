@@ -6,12 +6,9 @@ RUN apk upgrade --available
 RUN mkdir /client
 COPY . /client
 
-ENV PATH=/node_modules/.bin:$PATH
-COPY package*.json ./
-
+WORKDIR /client
 RUN npm install
 
-WORKDIR /client
 ENV REACT_APP_NODE_ENV DEV
 EXPOSE 3000
 
