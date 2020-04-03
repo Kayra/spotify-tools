@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import './App.css';
 import Api from './Api';
+import Timeline from './Timeline';
 // import logo from './logo.svg';
 
 
@@ -15,6 +16,7 @@ interface IState {
   artist: string;
   duplicatePlaylists: Array<string>;
   backup: object;
+  dates: object;
 }
 
 class App extends Component<IProps, IState> {
@@ -32,7 +34,8 @@ class App extends Component<IProps, IState> {
       track: '',
       artist: '',
       duplicatePlaylists: [],
-      backup: {}
+      backup: {},
+      dates: {}
     };
   
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -43,6 +46,8 @@ class App extends Component<IProps, IState> {
     this.handleDuplicateSubmit = this.handleDuplicateSubmit.bind(this);
 
     this.handleBackupSubmit = this.handleBackupSubmit.bind(this);
+
+    this.handleTimelineSubmit = this.handleTimelineSubmit.bind(this);
 
   }
 
@@ -87,9 +92,38 @@ class App extends Component<IProps, IState> {
 
   }
 
+  async handleTimelineSubmit(event:any): Promise<void> {
+    
+    event.preventDefault();
+    const response = await this.api.spotifyTimeline(this.state.userName);
+    const datedTracks = response.data['timeline'];
+
+    const dates: any[] = [];
+    
+    Object.keys(datedTracks).forEach((_date) => {
+
+      const date = _date as keyof typeof datedTracks;
+      const tracks = datedTracks[date];
+
+      for (const track of tracks) {
+        dates.push({
+          data: date,
+          status: "status",
+          statusB: `${JSON.stringify(track['name'])} - ${track['artist']}`,
+          statusE: ""
+        });
+        break;
+      }
+
+      this.setState({dates: dates});
+
+    });
+
+  }
 
   render() {
-    return <div className="App">
+    return (
+    <div className="App">
       <header className="App-header">
 
         <h1>Spotify Toolset</h1>
@@ -157,6 +191,15 @@ class App extends Component<IProps, IState> {
 
               <div>
                 <h2>Song Timeline</h2>
+                <form onSubmit={this.handleTimelineSubmit}>
+                  <input type="submit" value="Get timeline" />
+                </form>
+                {
+                  Object.values(this.state.dates).length ?
+                  <Timeline dates={this.state.dates}/>
+                  : ""
+                }
+
               </div>
 
             </div>
@@ -165,6 +208,7 @@ class App extends Component<IProps, IState> {
 
       </header>
     </div>
+    )
   }
 }
 
