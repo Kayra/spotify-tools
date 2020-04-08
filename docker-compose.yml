@@ -50,10 +50,10 @@ services:
       - "3000:3000"
     volumes:
       - ./client:/client
-      # - exclude:/client/node_modules
+      - exclude:/client/node_modules
     environment:
       - CHOKIDAR_USEPOLLING="true"
       - REACT_APP_API_HOST=http://localhost:8000
 
-# volumes:
-  # exclude:
+volumes:
+  exclude:
