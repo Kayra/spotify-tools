@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Api from './Api';
 import Timeline from './Timeline';
-// import logo from './logo.svg';
+import Duplicate from './components/Duplicate';
 
 
 interface IProps {
@@ -155,25 +155,7 @@ class App extends Component<IProps, IState> {
           this.state.validUser ?
             <div className="features">
 
-              <div>
-                <h2>Song Duplicate Check</h2>
-                <form onSubmit={this.handleDuplicateSubmit}>
-                  <label>
-                    Track: <input type="text" value={this.state.track} onChange={this.handleTrackChange} />
-                    Artist: <input type="text" value={this.state.artist} onChange={this.handleArtistChange} />
-                  </label>
-                  <input type="submit" value="Submit" />
-                </form>
-
-                {
-                  this.state.duplicatePlaylists ?
-                    <ul>
-                      {this.state.duplicatePlaylists.map(playList => <li key={playList}>{playList}</li>)}
-                    </ul>
-                  : ""
-                }
-
-              </div>
+              <Duplicate api={this.api} userName={this.state.userName}/>
 
               <div>
                 <h2>Library Playlist Backup</h2>
