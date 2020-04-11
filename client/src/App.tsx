@@ -12,9 +12,6 @@ interface IProps {
 interface IState {
   userName: string;
   validUser: boolean;
-  track: string;
-  artist: string;
-  duplicatePlaylists: Array<string>;
   backup: object;
   dates: object;
 }
@@ -31,19 +28,12 @@ class App extends Component<IProps, IState> {
     this.state = {
       userName: '',
       validUser: false,
-      track: '',
-      artist: '',
-      duplicatePlaylists: [],
       backup: {},
       dates: {}
     };
   
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleUsernameSubmit = this.handleUsernameSubmit.bind(this);
-
-    this.handleTrackChange = this.handleTrackChange.bind(this);
-    this.handleArtistChange = this.handleArtistChange.bind(this);
-    this.handleDuplicateSubmit = this.handleDuplicateSubmit.bind(this);
 
     this.handleBackupSubmit = this.handleBackupSubmit.bind(this);
 
@@ -65,22 +55,6 @@ class App extends Component<IProps, IState> {
     } else {
       alert(response.data);
     }
-
-  }
-
-  handleTrackChange(event: any): void {
-    this.setState({track: event.target.value});
-  }
-
-  handleArtistChange(event: any): void {
-    this.setState({artist: event.target.value});
-  }
-
-  async handleDuplicateSubmit(event: any): Promise<void> {
-    
-    event.preventDefault();
-    const response = await this.api.spotifyFind(this.state.userName, this.state.track, this.state.artist);
-    this.setState({duplicatePlaylists: response.data['playlists']});
 
   }
 
