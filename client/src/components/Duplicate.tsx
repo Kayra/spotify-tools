@@ -14,12 +14,10 @@ interface IState {
 
 export default class Duplicate extends React.Component<IProps, IState> {
 
-    // api: Api;
     state: IState;
 
     constructor(props: IProps) {
         super(props);
-        // this.api = props.api;
         this.handleTrackChange = this.handleTrackChange.bind(this);
         this.handleArtistChange = this.handleArtistChange.bind(this);
         this.handleDuplicateSubmit = this.handleDuplicateSubmit.bind(this);
