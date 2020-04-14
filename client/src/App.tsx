@@ -4,6 +4,7 @@ import './App.css';
 import Api from './Api';
 import Timeline from './Timeline';
 import Duplicate from './components/Duplicate';
+import Backup from './components/Backup';
 
 
 interface IProps {
@@ -130,6 +131,7 @@ class App extends Component<IProps, IState> {
             <div className="features">
 
               <Duplicate api={this.api} userName={this.state.userName}/>
+              <Backup api={this.api} userName={this.state.userName}/>
 
               <div>
                 <h2>Library Playlist Backup</h2>
