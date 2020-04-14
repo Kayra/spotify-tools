@@ -13,7 +13,6 @@ interface IProps {
 interface IState {
   userName: string;
   validUser: boolean;
-  backup: object;
   dates: object;
 }
 
@@ -29,14 +28,11 @@ class App extends Component<IProps, IState> {
     this.state = {
       userName: '',
       validUser: false,
-      backup: {},
       dates: {}
     };
   
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleUsernameSubmit = this.handleUsernameSubmit.bind(this);
-
-    this.handleBackupSubmit = this.handleBackupSubmit.bind(this);
 
     this.handleTimelineSubmit = this.handleTimelineSubmit.bind(this);
 
@@ -56,14 +52,6 @@ class App extends Component<IProps, IState> {
     } else {
       alert(response.data);
     }
-
-  }
-
-  async handleBackupSubmit(event:any): Promise<void> {
-    
-    event.preventDefault();
-    const response = await this.api.spotifyBackup(this.state.userName, true);
-    this.setState({backup: response.data['backup']});
 
   }
 
@@ -132,20 +120,6 @@ class App extends Component<IProps, IState> {
 
               <Duplicate api={this.api} userName={this.state.userName}/>
               <Backup api={this.api} userName={this.state.userName}/>
-
-              <div>
-                <h2>Library Playlist Backup</h2>
-                <form onSubmit={this.handleBackupSubmit}>
-                  <input type="submit" value="Prepare backup" />
-                </form>
-
-                {
-                  Object.values(this.state.backup).length ?
-                    <a href={encodeURI("data:text/plain;utf-8," + JSON.stringify(this.state.backup).replace(/#/g, '%23'))} target="_blank" download="spotify_backup.txt">Download back up</a>
-                  : ""
-                }                
-
-              </div>
 
               <div>
                 <h2>Song Timeline</h2>
