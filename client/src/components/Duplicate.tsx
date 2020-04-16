@@ -18,14 +18,14 @@ export default class Duplicate extends React.Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
+        this.state = {
+          track: '',
+          artist: '',
+          duplicatePlaylists: []
+        };
         this.handleTrackChange = this.handleTrackChange.bind(this);
         this.handleArtistChange = this.handleArtistChange.bind(this);
         this.handleDuplicateSubmit = this.handleDuplicateSubmit.bind(this);
-        this.state = {
-            track: '',
-            artist: '',
-            duplicatePlaylists: []
-        };
     }
 
     handleTrackChange(event: any): void {

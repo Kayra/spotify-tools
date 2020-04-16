@@ -38,7 +38,14 @@ export default class Backup extends React.Component<IProps, IState> {
 
                 {
                 Object.values(this.state.backup).length ?
-                    <a href={encodeURI("data:text/plain;utf-8," + JSON.stringify(this.state.backup).replace(/#/g, '%23'))} target="_blank" download="spotify_backup.txt">Download back up</a>
+                    <a 
+                        href={encodeURI("data:text/plain;utf-8," + JSON.stringify(this.state.backup).replace(/#/g, '%23'))} 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        download="spotify_backup.json"
+                    >
+                        Download back up
+                    </a>
                 : ""
                 }
             </div>
