@@ -39,7 +39,7 @@ interface IState {
   prevIdx: number;
 }
 
-export default class Timeline extends React.Component<IProps, IState> {
+export default class TimelineHandler extends React.Component<IProps, IState> {
     
   constructor(props: IProps) {
 
