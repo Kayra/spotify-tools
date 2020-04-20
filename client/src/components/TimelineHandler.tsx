@@ -54,9 +54,10 @@ export default class TimelineHandler extends React.Component<IProps, IState> {
 
   render() {
 
-    const { curIdx, prevIdx } = this.state;
+    // const { curIdx, prevIdx } = this.state;
+    const { curIdx } = this.state;
     const curStatus = this.props.dates[curIdx].statusB;
-    const prevStatus = prevIdx >= 0 ? this.props.dates[prevIdx].statusB : "";
+    // const prevStatus = prevIdx >= 0 ? this.props.dates[prevIdx].statusB : "";
 
     return (
       <div>
