@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './App.css';
 import Api from './Api';
-import Timeline from './Timeline';
+import Timeline from './components/Timeline';
 import Duplicate from './components/Duplicate';
 import Backup from './components/Backup';
 
@@ -13,7 +13,6 @@ interface IProps {
 interface IState {
   userName: string;
   validUser: boolean;
-  dates: object;
 }
 
 class App extends Component<IProps, IState> {
@@ -27,14 +26,11 @@ class App extends Component<IProps, IState> {
     this.api = new Api();
     this.state = {
       userName: '',
-      validUser: false,
-      dates: {}
+      validUser: false
     };
   
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleUsernameSubmit = this.handleUsernameSubmit.bind(this);
-
-    this.handleTimelineSubmit = this.handleTimelineSubmit.bind(this);
 
   }
 
@@ -52,35 +48,6 @@ class App extends Component<IProps, IState> {
     } else {
       alert(response.data);
     }
-
-  }
-
-  async handleTimelineSubmit(event:any): Promise<void> {
-    
-    event.preventDefault();
-    const response = await this.api.spotifyTimeline(this.state.userName);
-    const datedTracks = response.data['timeline'];
-
-    const dates: any[] = [];
-    
-    Object.keys(datedTracks).forEach((_date) => {
-
-      const date = _date as keyof typeof datedTracks;
-      const tracks = datedTracks[date];
-
-      for (const track of tracks) {
-        dates.push({
-          data: date,
-          status: "status",
-          statusB: `${JSON.stringify(track['name'])} - ${track['artist']}`,
-          statusE: ""
-        });
-        break;
-      }
-
-      this.setState({dates: dates});
-
-    });
 
   }
 
@@ -120,19 +87,7 @@ class App extends Component<IProps, IState> {
 
               <Duplicate api={this.api} userName={this.state.userName}/>
               <Backup api={this.api} userName={this.state.userName}/>
-
-              <div>
-                <h2>Song Timeline</h2>
-                <form onSubmit={this.handleTimelineSubmit}>
-                  <input type="submit" value="Get timeline" />
-                </form>
-                {
-                  Object.values(this.state.dates).length ?
-                  <Timeline dates={this.state.dates}/>
-                  : ""
-                }
-
-              </div>
+              <Timeline api={this.api} userName={this.state.userName}/>
 
             </div>
           : ""
