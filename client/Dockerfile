@@ -10,7 +10,7 @@ WORKDIR /client
 ENV PATH /client/node_modules/.bin:$PATH
 
 COPY package*.json ./
-RUN npm install && npm update
+RUN npm install --force && npm update
 RUN npm run build
 
 FROM nginx:1.16.0-alpine
