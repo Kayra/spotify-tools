@@ -56,28 +56,16 @@ class App extends Component<IProps, IState> {
     <div className="App">
       <header className="App-header">
 
-        <h1>Spotify Toolset</h1>
-
-        <p>A set of tools to facilitate interaction with a large amount of playlists.</p>
-
-        <p>Current features:</p>
-        <ul>
-          <li>Song duplicate check</li>
-          <li>Song timeline</li>
-          <li>Library playlist backup</li>
-        </ul>
-
-        <p>Be sure to <a href="https://twitter.com/kayraalat" target="_blank" rel="noreferrer">tweet at me</a> or <a href="https://github.com/Kayra/spotify-tools/issues" target="_blank" rel="noreferrer">create a Github issue</a> if there's a feature you'd like to see.</p>
-
-        <hr></hr>
+        <div className='title'>
+          <h1>Spotify</h1>
+          <h2>POWER TOOLS</h2>
+        </div>
 
         <div className="user">
-          <h2>Register your username to get started</h2>
-          <form onSubmit={this.handleUsernameSubmit}>
-            <label>
-              Name: <input type="text" value={this.state.userName} onChange={this.handleUsernameChange} />
-            </label>
-            <input type="submit" value="Submit" />
+          <h2>Enter your Spotify username to get started.</h2>
+          <form className="centered-form" onSubmit={this.handleUsernameSubmit}>
+            <input type="text" value={this.state.userName} onChange={this.handleUsernameChange} placeholder="obamna" />
+            <input type="submit" value="Submit" className="centered-button" />
           </form>
         </div>
 

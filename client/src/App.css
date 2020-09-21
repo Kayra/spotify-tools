@@ -1,3 +1,12 @@
+@font-face {
+  font-family: GothamBold;
+  src: url(font/GothamBold.ttf);
+}
+@font-face {
+  font-family: GothamLight;
+  src: url(font/GothamLight.ttf);
+}
+
 .App {
 
 }
@@ -15,4 +24,43 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.title {
+  width: 50%; /* Ensure the div takes up the full width of its parent */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title h1 {
+  font-family: GothamBold, sans-serif;
+  font-size: 5vw;
+}
+
+.title h2 {
+  font-family: GothamLight, sans-serif; 
+  letter-spacing: 0.1em;
+  font-size: 2vw;
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.centered-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center contents horizontally */
+  text-align: center;
+}
+
+.centered-button {
+  width: 80%;
+  display: block;
+  margin-top: 0.8em;
 }

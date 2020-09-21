@@ -45,7 +45,7 @@ export default class Duplicate extends React.Component<IProps, IState> {
     render() {
         return (
             <div>
-            <h2>Song Duplicate Check</h2>
+            <h2>Playlist finder</h2>
             <form onSubmit={this.handleDuplicateSubmit}>
               <label>
                 Track: <input type="text" value={this.state.track} onChange={this.handleTrackChange} />

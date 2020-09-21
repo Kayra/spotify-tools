@@ -1,5 +1,5 @@
 import React from 'react';
-import HorizontalTimeline from 'react-horizontal-timeline';
+// import HorizontalTimeline from 'react-horizontal-timeline';
 
 interface DatePoint {
   data: string,
@@ -70,7 +70,7 @@ export default class TimelineHandler extends React.Component<IProps, IState> {
             fontSize: "15px"
           }}
         >
-          <HorizontalTimeline
+          {/* <HorizontalTimeline
             styles={{
               background: "#f8f8f8",
               foreground: "#1A79AD",
@@ -85,7 +85,7 @@ export default class TimelineHandler extends React.Component<IProps, IState> {
 
             values={this.props.dates.map((x: DatePoint) => x.data)}
 
-          />
+          /> */}
         </div>
         <div className="text-center">
           {/* Prevoius:-{prevStatus} - Current Select:-{curStatus} */}
