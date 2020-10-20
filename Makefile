@@ -1,14 +1,11 @@
 .PHONY: install start dot-env api-shell mongo-shell
 
-
 install:
 	@-${MAKE} dot-env
 	@docker compose up --remove-orphans
 
-
 start:
 	@docker compose up
-
 
 dot-env:
 	@printf "MONGO_HOST=localhost\n \
@@ -23,14 +20,11 @@ dot-env:
     | tr -d "[:blank:]" \
     > .env
 
-
 api-shell:
 	@docker exec -it spotify.api bash
 
-
 mongo-shell:
 	@docker exec -it spotify.mongo_db mongosh admin -u admin -p 'local_insecure_pass'
-
 
 client-shell:
 	@docker exec -it spotify.client sh
