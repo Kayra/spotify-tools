@@ -51,16 +51,21 @@
   text-align: center;
 }
 
+.user form {
+  padding-top: 2em;
+}
+
 .centered-form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center contents horizontally */
+  justify-content: center;
   text-align: center;
+  width: 60%;
 }
 
 .centered-button {
-  width: 80%;
+  width: 30%;
   display: block;
-  margin-top: 0.8em;
+  margin-top: 1.5em;
 }

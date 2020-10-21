@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 
 import './App.css';
 import Api from './Api';
@@ -6,85 +6,53 @@ import Timeline from './components/Timeline';
 import Duplicate from './components/Duplicate';
 import Backup from './components/Backup';
 
+const App = () => {
 
-interface IProps {
-}
+  const [userName, setUserName] = useState('');
+  const [validUser, setValidUser] = useState(false);
+  const api = new Api;
 
-interface IState {
-  userName: string;
-  validUser: boolean;
-}
+  const handleUsernameChange = (event: any) => {
+    setUserName(event.target.value);
+  };
 
-class App extends Component<IProps, IState> {
-
-  api: Api;
-
-  constructor(props: any) {
-
-    super(props);
-
-    this.api = new Api();
-    this.state = {
-      userName: '',
-      validUser: false
-    };
-  
-    this.handleUsernameChange = this.handleUsernameChange.bind(this);
-    this.handleUsernameSubmit = this.handleUsernameSubmit.bind(this);
-
-  }
-
-  handleUsernameChange(event: any): void {
-    this.setState({userName: event.target.value});
-  }
-
-  async handleUsernameSubmit(event: any): Promise<void> {
-
+  const handleUsernameSubmit = async (event: any) => {
     event.preventDefault();
-    const response = await this.api.userCreate(this.state.userName);
+    const response = await api.userCreate(userName);
 
     if (response.status === 200 || response.status === 409) {
-      this.setState({validUser: true});
+      setValidUser(true);
     } else {
       alert(response.data);
     }
+  };
 
-  }
-
-  render() {
-    return (
+  return (
     <div className="App">
       <header className="App-header">
-
         <div className='title'>
           <h1>Spotify</h1>
           <h2>POWER TOOLS</h2>
         </div>
-
         <div className="user">
           <h2>Enter your Spotify username to get started.</h2>
-          <form className="centered-form" onSubmit={this.handleUsernameSubmit}>
-            <input type="text" value={this.state.userName} onChange={this.handleUsernameChange} placeholder="obamna" />
-            <input type="submit" value="Submit" className="centered-button" />
+          <form className="centered-form" onSubmit={handleUsernameSubmit}>
+            <input type="text" value={userName} onChange={handleUsernameChange} placeholder="obamna" className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-base'/>
+            <input type="submit" value="Submit" className="centered-button bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full text-base" />
           </form>
         </div>
-
         {
-          this.state.validUser ?
+          validUser && (
             <div className="features">
-
-              <Duplicate api={this.api} userName={this.state.userName}/>
-              <Backup api={this.api} userName={this.state.userName}/>
-              <Timeline api={this.api} userName={this.state.userName}/>
-
+              <Duplicate api={api} userName={userName} />
+              <Backup api={api} userName={userName} />
+              <Timeline api={api} userName={userName} />
             </div>
-          : ""
+          )
         }
-
       </header>
     </div>
-    )
-  }
-}
+  );
+};
 
 export default App;
