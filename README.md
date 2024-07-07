@@ -6,7 +6,7 @@ Built from personal needs based on how I use Spotify. Feel free to request featu
 
 ## Design
 
-![UI design](docs/ui_design.png)
+![UI design](docs/ui_design_v2.png)
 
 ### Feature ideas:
 * Find playlists that contain provided song
@@ -58,7 +58,7 @@ Connect to the client Docker container shell (while the application is running):
 make client-shell
 ```
 
-Build and run the production client Docker container (accessible at [http://localhost](http://localhost)):
+Build and run the production client Docker container (accessible at [http://localhost:8001](http://localhost:8001)):
 
 ```bash
 docker build --no-cache -t spotify-client . && docker run -p 80:80 spotify-client
