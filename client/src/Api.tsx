@@ -11,6 +11,38 @@ class Api {
         return expectedErrors.some(expectedError => errorMessage.includes(expectedError));
     }
 
+    async userGetOrCreate(userName: string): Promise<any> {
+
+        let response = await this.userGet(userName)
+            .catch(error => {
+                console.log(error)
+            });
+
+        // console.log(response);
+        response = {};
+
+        return response;
+
+    }
+
+    async userGet(userName: string): Promise<any> {
+
+        const expectedErrors = ['404', '422']
+
+        const response = await axios({
+            method: 'GET',
+            url: `${this.apiHost}/users/${userName}`
+        }).catch(error => {
+            if (this.isExpectedError(error.message, expectedErrors)) {
+                console.log(error.response.data);
+                return error.response;
+            }
+        });
+
+        return response;
+
+    }
+
     async userCreate(userName: string): Promise<any> {
 
         const expectedErrors = ['409', '500']

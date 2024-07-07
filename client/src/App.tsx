@@ -10,20 +10,23 @@ const App = () => {
 
   const [userName, setUserName] = useState('');
   const [validUser, setValidUser] = useState(false);
-  const api = new Api;
+  const api = new Api();
 
   const handleUsernameChange = (event: any) => {
     setUserName(event.target.value);
   };
 
   const handleUsernameSubmit = async (event: any) => {
+
     event.preventDefault();
-    const response = await api.userCreate(userName);
+
+    const response = await api.userGet(userName);
 
     if (response.status === 200 || response.status === 409) {
       setValidUser(true);
     } else {
-      alert(response.data);
+
+      alert(JSON.stringify(response.data));
     }
   };
 
@@ -35,7 +38,7 @@ const App = () => {
           <h2>POWER TOOLS</h2>
         </div>
         <div className="user">
-          <h2>Enter your Spotify username to get started.</h2>
+          <p>Enter your spotify username:</p>
           <form className="centered-form" onSubmit={handleUsernameSubmit}>
             <input type="text" value={userName} onChange={handleUsernameChange} placeholder="obamna" className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-base'/>
             <input type="submit" value="Submit" className="centered-button bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full text-base" />

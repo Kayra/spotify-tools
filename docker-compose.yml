@@ -8,7 +8,7 @@ services:
     volumes:
       - ./api/app:/app
     ports:
-      - 8000:8000
+      - 8001:8000
     environment:
       - ENVIRONMENT=dev
       - TESTING=0
@@ -52,7 +52,7 @@ services:
       - exclude:/client/node_modules
     environment:
       - CHOKIDAR_USEPOLLING="true"
-      - REACT_APP_API_HOST=http://localhost:8000
+      - REACT_APP_API_HOST=http://localhost:8001
 
 volumes:
   exclude:

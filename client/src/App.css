@@ -27,7 +27,7 @@
 }
 
 .title {
-  width: 50%; /* Ensure the div takes up the full width of its parent */
+  width: 60%; /* Ensure the div takes up the full width of its parent */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,13 +35,15 @@
 
 .title h1 {
   font-family: GothamBold, sans-serif;
-  font-size: 5vw;
+  letter-spacing: 0.05em;
+  font-size: 15vw;
 }
 
 .title h2 {
   font-family: GothamLight, sans-serif; 
-  letter-spacing: 0.1em;
-  font-size: 2vw;
+  letter-spacing: 1em;
+  font-size: 3vw;
+  margin-top: -5vw;
 }
 
 .user {
@@ -49,10 +51,11 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  padding-top: 33vw;
 }
 
 .user form {
-  padding-top: 2em;
+  padding-top: 0.5em;
 }
 
 .centered-form {
@@ -61,11 +64,12 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 60%;
+  width: 100%;
 }
 
 .centered-button {
-  width: 30%;
+  /* width: 30%; */
   display: block;
   margin-top: 1.5em;
+  padding: 2vw 7vw;
 }
